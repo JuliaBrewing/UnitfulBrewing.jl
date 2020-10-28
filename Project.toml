@@ -1,0 +1,13 @@
+name = "UnitfulBrew"
+uuid = "eb674140-eaac-43ed-8e42-d536905a33a9"
+license = "MIT"
+desc = "Brewing units extension for Unitful"
+authors = ["Ricardo Rosa <rmsrosa@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+
+[compat]
+Unitful = "1"
+julia = "1"
