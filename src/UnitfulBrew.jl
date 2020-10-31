@@ -155,10 +155,10 @@ function sg_to_plato(x::Quantity{T,D,U}) where {T,D,U}
     end
 end
 
-@equivalence  °P          sg          plato_to_sg
-@equivalence  sg          °P          sg_to_plato
-@equivalence  ppm         Unitful.mg/Unitful.L    x::Quantity -> x.val * Unitful.mg/Unitful.L
-@equivalence  Unitful.mg/Unitful.L    ppm         x::Quantity -> x.val * ppm
+@equivalence  °P                    sg                      plato_to_sg
+@equivalence  sg                    °P                      sg_to_plato
+@equivalence  ppm                   Unitful.mg/Unitful.L    x::Quantity -> x.val * Unitful.mg/Unitful.L
+@equivalence  Unitful.mg/Unitful.L  ppm                     x::Quantity -> x.val * ppm
 
 # Register the above units and dimensions in Unitful
 __init__() = Unitful.register(UnitfulBrew)
