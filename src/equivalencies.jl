@@ -54,7 +54,7 @@ function add_equivalence(u_in::Unitful.Units, u_out::Unitful.Units, f_equiv::Fun
 end
 
 """
-    macro add_equivalence_macro(u_in, u_out, f_equiv)
+    macro equivalence(u_in, u_out, f_equiv)
 
 Macro to simplify adding an equivalence conversion function to the `equivalence_list`,
 by calling the function `add_equivalence`.
