@@ -24,3 +24,11 @@ deps = ["ConstructionBase", "LinearAlgebra", "Random"]
 git-tree-sha1 = "2b643523d52fc9fb4fe0729e6561d066055d58d8"
 uuid = "1986cc42-f94f-5a68-af5c-568840ba703d"
 version = "1.5.0"
+
+[[UnitfulEquivalences]]
+deps = ["Unitful"]
+git-tree-sha1 = "a4103bcbb3451f6ea01e32e055ce405050d9ef2d"
+repo-rev = "main"
+repo-url = "https://github.com/sostock/UnitfulEquivalences.jl"
+uuid = "da9c4bc3-91c8-4f02-8a40-6b990d2a7e0c"
+version = "0.0.1"

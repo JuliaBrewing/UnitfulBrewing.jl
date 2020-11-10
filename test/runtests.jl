@@ -47,10 +47,11 @@ using Test
     @test uconvert(u"min", 60u"sec") == 1u"min"
 
     # equivalencies
-    @test round(econvert(u"sg", 0u"°P")) == 1u"sg"
-    @test round(1000*econvert(u"sg", 10u"°P")) == 1040u"sg"
-    @test round(econvert(u"°P", 1u"sg")) == 0u"°P"
-    @test round(econvert(u"°P", 1.040u"sg")) == 10u"°P"
+    @test uconvert(u"mg/l", 1u"ppm", Brewing()) === 1u"mg/l"
+    @test uconvert(u"kg/l", 10u"percent", Brewing()) === (1//10)u"kg/l"
+    @test uconvert(u"ppm", 1u"mg/l", Brewing()) === 1u"ppm"
+    @test uconvert(u"sg", 10u"°P", Brewing()) === 1.0400321211458716u"sg"
+    @test uconvert(u"°P", 1.040u"sg", Brewing()) ≈ 9.99224u"°P"
 
     # Throw errors
     @test_throws LoadError @macroexpand(u"ton Lovi")

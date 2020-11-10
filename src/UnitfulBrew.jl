@@ -6,12 +6,12 @@ Module extending Unitful.jl with beer brewing units.
 """
 module UnitfulBrew
 
-# import Unitful
 using Unitful
+#using UnitfulEquivalences
+using UnitfulEquivalences: dimtype, @equivalence
+import UnitfulEquivalences: edconvert
 
-# export
-export econvert
-export @equivalence
+export Brewing
 
 # New dimensions
 @dimension 𝐂    "C"     Color
@@ -42,7 +42,7 @@ const week = Unitful.wk
 @unit igal      "igal"      ImperialGallon      8ipt                    false
 @unit ibbl      "ibbl"      ImperialBarrel      36igal                  false
 
-# Sugar content and gravity
+# Sugar content and gravity (maybe sg should be an affine quantity)
 @unit °P        "°P"        Plato               1               true
 @unit sg        "sg"        SpecificGravity     1               true
 @unit Brix      "Brix"      Brix                1               true
@@ -57,7 +57,6 @@ const Lintner = °Lintner
 const WK = °WK
 
 # Color units
-
 @refunit    SRM     "SRM"       SRM                 𝐂               false
 @unit       °L      "°L"        Lovibond            1SRM            false
 @unit       EBC     "EBC"       EBC                 (197//100)SRM   false
@@ -94,11 +93,7 @@ Unitful.FreeUnits{(pH,),𝐋² 𝐌 𝐈⁻² 𝐓⁻²,nothing}
 ```
 =#
 
-# Equivalencies
-
-include("equivalencies.jl")
-
-## Define the equivalence functions
+## Define the conversion functions between Plato and specific gravity
 
 """
     function plato_to_sg(x)
@@ -131,7 +126,7 @@ function plato_to_sg(x::Quantity{T,D,U}) where {T,D,U}
             return mp * UnitfulBrew.sg
         end
     else
-        throw(UnitfulBrew.EquivalenceConversionFunctionError("plato_to_sg",U()))
+        throw(error("Argument of plato_to_sg() must be a quantity in degrees Plato"))
     end
 end
 
@@ -151,14 +146,57 @@ function sg_to_plato(x::Quantity{T,D,U}) where {T,D,U}
         p = 668.72 * sg - 463.37 - 205.35 * sg^2
         return p * UnitfulBrew.°P
     else
-        throw(UnitfulBrew.EquivalenceConversionFunctionError("sg_to_plato",U()))
+        throw(error("Argument of sg_to_plato() must be a specific gravity quantity"))
     end
 end
 
-@equivalence  °P                    sg                      plato_to_sg
-@equivalence  sg                    °P                      sg_to_plato
-@equivalence  ppm                   Unitful.mg/Unitful.L    x::Quantity -> x.val * Unitful.mg/Unitful.L
-@equivalence  Unitful.mg/Unitful.L  ppm                     x::Quantity -> x.val * ppm
+# Define the equivalences
+
+_eqconversion_error(v, u, e) = error("$e does not define conversion from $u to $v")
+
+"""
+    Brewing()
+
+Equivalence to convert brewing related quantities.
+
+* Convert between Density and NoDims according to a linear relation with 1u"mg/L" equivalent to 1u"ppm"
+
+* Convert between degrees Plato and specific gravity (need to include gravity points, as well)
+
+# Examples
+
+```jldoctest
+julia> uconvert(u"mg/l", 10u"ppm", Brewing())
+10 mg L⁻¹
+julia> uconvert(u"ppm", 1u"g/l", Brewing())
+1000 ppm
+julia> uconvert(u"°P", 1.040u"sg", Brewing())
+9.992240000000066 °P
+julia> uconvert(u"sg", 15u"°P", Brewing())
+1.0611068377146742 sg
+```
+"""
+@equivalence Brewing
+
+edconvert(d::dimtype(Unitful.Density), x::Unitful.Quantity{T,D,U}, e::Brewing) where {T,D,U} = D == Unitful.NoDims ? x * 1u"kg/L" : throw(_eqconversion_error(d, D, e))
+
+function edconvert(d::Unitful.Dimensions{()}, x::Unitful.Quantity{T,D,U}, e::Brewing) where {T,D,U} 
+    if U() == UnitfulBrew.sg
+        sg_to_plato(x)
+    elseif U() == UnitfulBrew.°P
+        plato_to_sg(x)
+    elseif D == Unitful.𝐌/Unitful.𝐋^3
+        x * 1u"L/kg" # Density to parts per (e.g. 1u"ppm" = 1u"mg/l")
+    else
+        throw(_eqconversion_error(d, Unitful.unit(x), e))
+    end
+end
+
+# The function below is just so I get things straight
+function show_quantity_info(x::Quantity{T,D,U}) where {T,D,U}
+    println("Here is the result of (T, D, U, U()) for $x:")
+    return T, D, U, U()
+end
 
 # Register the above units and dimensions in Unitful
 __init__() = Unitful.register(UnitfulBrew)
