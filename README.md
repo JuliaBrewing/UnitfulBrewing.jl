@@ -20,20 +20,24 @@ List here the dimensions and units defined in this package...
 
 ## Equivalences
 
-Although degrees Plato and specific gravity measure different things, they are both used for estimating the amount of fermentables in the wort. Moreover, it is common to treat them interchangeably, according to a suitable nonlinear function between both quantities. In order to account for that, we implement here the notion of `equivalency`, as done in [astropy.units: equivalencies](https://docs.astropy.org/en/stable/units/equivalencies.html).
+Although degrees Plato and specific gravity measure different things, they are both used for estimating the amount of fermentables in the wort. Moreover, it is common to treat them interchangeably, according to a suitable quadratic relation between them. In order to account for that, we use here the package [`UnitfulEquivalences.jl`](https://github.com/sostock/UnitfulEquivalences.jl) (under development), which is inspired by the equivalences in [astropy.units: equivalencies](https://docs.astropy.org/en/stable/units/equivalencies.html).
 
-(add more info on that and mention the example below)
+Moreover, as it is commonly done in he brewing community, `ppm` and `mg/l` are also considered equivalent.
 
 ## Usage examples
 
 Add examples...
 
 ```julia
-using Unitful
-using UnitfulBrew
+julia> using Unitful
+julia> using UnitfulEquivalences
+julia> using UnitfulBrew
 
-p = 10u"°P"
-sg = econvert(u"sg", p)
+julia> uconvert(u"°P", 1.040u"sg", Brewing())
+9.992240000000066 °P
+
+julia> uconvert(u"sg", 15u"°P", Brewing())
+1.0611068377146742 sg
 ```
 
 ## License
