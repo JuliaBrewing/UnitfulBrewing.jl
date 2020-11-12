@@ -14,6 +14,7 @@ List here the dimensions and units defined in this package...
   - 𝐂 for Color
   - 𝐃 for Diastatic Power
   - 𝐁 for Bitterness
+  - 𝐏 for Sugar Contents (for degrees Plato scale)
 
 - Units:
 (add units...)
@@ -34,10 +35,10 @@ julia> using UnitfulEquivalences
 julia> using UnitfulBrew
 
 julia> uconvert(u"°P", 1.040u"sg", Brewing())
-9.992240000000066 °P
+9.992240000000002 °P
 
 julia> uconvert(u"sg", 15u"°P", Brewing())
-1.0611068377146742 sg
+1.0611068377146748 sg
 ```
 
 ## License

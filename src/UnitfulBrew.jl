@@ -17,6 +17,7 @@ export Brewing
 @dimension 𝐂    "C"     Color
 @dimension 𝐃    "𝐃"     DiastaticPower
 @dimension 𝐁    "𝐁"     Bitterness
+@dimension 𝐏    "𝐏"     SugarContents
 
 # Time units: adding beerjson symbols as alias to Unitful symbols
 const sec = Unitful.s
@@ -42,19 +43,25 @@ const week = Unitful.wk
 @unit igal      "igal"      ImperialGallon      8ipt                    false
 @unit ibbl      "ibbl"      ImperialBarrel      36igal                  false
 
-# Sugar content and gravity (maybe sg should be an affine quantity)
-@unit °P        "°P"        Plato               1               true
-@unit sg        "sg"        SpecificGravity     1               true
-@unit Brix      "Brix"      Brix                1               true
-@unit gu        "gu"        GravityUnit         1               true
+# Sugar content
+@refunit °P     "°P"        Plato               𝐏           false
+@unit Brix      "Brix"      Brix                1°P         false
+@unit Balling   "Balling"   Balling             1°P         false
+
+# Specific gravity
+# uconvert(Unitful.NoUnits, 1.010u"sg") == 1.01
+# uconvert(u"permille", 1.040u"sg") == 1040.0 ‰
+# uconvert(u"gu", 1.040u"sg") == 40.0 gu
+# uconvert(u"sg", 40u"gu") == 1.04 sg
+@unit       sg  "sg"        SpecificGravity     1.0         false
+@affineunit gu  "gu"        1000.0 * Unitful.permille
 const gp = gu # gravity points
 
 # Diastatic Power
 @refunit        °Lintner    "°Lintner"  Lintner     𝐃                   false
-@unit           °WKabs      "°WKabs"    WKabs       (10//35)°Lintner    false
-@affineunit     °WK         "°WK"       16°WKabs
+@unit           °WK_aux     "°WK_aux"   WK_aux      (10//35)°Lintner    false
+@affineunit     °WK         "°WK"       16°WK_aux
 const Lintner = °Lintner
-const WK = °WK
 
 # Color units
 @refunit    SRM     "SRM"       SRM                 𝐂               false
@@ -93,60 +100,48 @@ Unitful.FreeUnits{(pH,),𝐋² 𝐌 𝐈⁻² 𝐓⁻²,nothing}
 ```
 =#
 
-## Define the conversion functions between Plato and specific gravity
+## Define the conversion functions between Plato and gravity units
+"""
+    gu_to_plato(gu::Number)
+
+Convert a value in Gravity Units to degrees Plato according
+to the quadratic formula
+
+    Plato = 0.25802gu - 0.00020535gu^2,
+
+which is equivalent to the formula for specific gravity
+
+    Plato = 668.72 * sg - 463.37 - 205.35 * sg^2,
+
+with
+    gu = 1000 ( sg - 1.000 ).
+"""
+gu_to_plato(gu::Number) = 0.25802gu - 0.00020535gu^2
 
 """
-    function plato_to_sg(x)
+    plato_to_gu(p::Number)
 
-Convert from degrees `Plato` to specific gravity `sg` using the 
-quadratic equation
+Convert a value in degrees Plato to Gravity Units by inverting the quadratic
+formula for degrees Plato, so that
 
-    205.35 * sg^2 - 668.72 * sg +  463.37 + Plato = 0.
+    gu = e - sqrt(e^2 - g * Plato)) if ^2 - g * p >= 0 else gu = e
 
-This formula is considered to be a good approximation for reasonable
-values of degrees Plato. It can be solved for sg when Plato is below
-approximately 81 degrees, with sg being given by the smallest root 
-of the equation. When Plato is above this value, the function returns
-668.72/410.70, just for definiteness since it is way outside the validity
-range.
+where 
+    e = 0.25802 / 0.00020535 / 2 = 628.2444606768931
+and 
+    g = 1 / 0.00020535 = 4869.734599464329
+
+The value gu = d when p > d/2 is just for definiteness of the function since
+the in this range the conversion is meaningless.
 """
-function plato_to_sg(x::Quantity{T,D,U}) where {T,D,U}
-    if U() == UnitfulBrew.°P
-        a = 205.35; b = -668.72; c = 463.37
-        mp = - b/2/a # maximal point of the parabola P = P(sg)
-        mpsq = mp^2
-        mv = mpsq * a - c # maximal value of the parabola P = P(sg)
-        p = x.val
-        if p < mv
-#            sg = (- b - sqrt(b^2 - 4 * a * (c + p)) )/2/a
-            sg = mp - sqrt(mpsq - (c + p)/a)
-            return sg * UnitfulBrew.sg
-        else
-#            return -b/2/a * UnitfulBrew.sg
-            return mp * UnitfulBrew.sg
-        end
+function plato_to_gu(p::Number)
+    e = 628.2444606768931
+    g = 4869.734599464329
+    d = e^2 - g*p
+    if d >= 0
+        e - sqrt(d)
     else
-        throw(error("Argument of plato_to_sg() must be a quantity in degrees Plato"))
-    end
-end
-
-"""
-    function sg_to_plato(x)
-
-Convert from specific gravity `sg` to degrees `Plato` using the formula
-
-    Plato = 668.72 * sg - 463.37 - 205.35 * sg^2.
-
-This formula is considered a good approximation for reasonable values
-of the specific gravity.
-"""
-function sg_to_plato(x::Quantity{T,D,U}) where {T,D,U}
-    if U() == UnitfulBrew.sg
-        sg = x.val
-        p = 668.72 * sg - 463.37 - 205.35 * sg^2
-        return p * UnitfulBrew.°P
-    else
-        throw(error("Argument of sg_to_plato() must be a specific gravity quantity"))
+        e
     end
 end
 
@@ -180,15 +175,25 @@ julia> uconvert(u"sg", 15u"°P", Brewing())
 
 edconvert(d::dimtype(Unitful.Density), x::Unitful.Quantity{T,D,U}, e::Brewing) where {T,D,U} = D == Unitful.NoDims ? x * 1u"kg/L" : throw(_eqconversion_error(d, D, e))
 
+#edconvert(::Unitful.Dimensions{()}, x::UnitfulBrew.SugarContents, ::Brewing) = plato_to_gu(x.val) * UnitfulBrew.gu
+
+# edconvert(::dimtype(SugarContents), x::Unitful.NoUnits, ::Brewing) = gu_to_plato(uconvert(UnitfulBrew.gu, x).val) * UnitfulBrew.°P
+
+function edconvert(d::dimtype(SugarContents), x::Unitful.Quantity{T,D,U}, e::Brewing) where {T,D,U} 
+    if D == NoDims
+        gu_to_plato(uconvert(UnitfulBrew.gu, x).val) * UnitfulBrew.°P
+    else
+        throw(_eqconversion_error(d, D, e))
+    end
+end
+
 function edconvert(d::Unitful.Dimensions{()}, x::Unitful.Quantity{T,D,U}, e::Brewing) where {T,D,U} 
-    if U() == UnitfulBrew.sg
-        sg_to_plato(x)
-    elseif U() == UnitfulBrew.°P
-        plato_to_sg(x)
+    if D == UnitfulBrew.𝐏
+        plato_to_gu(uconvert(UnitfulBrew.°P, x).val) * UnitfulBrew.gu
     elseif D == Unitful.𝐌/Unitful.𝐋^3
         x * 1u"L/kg" # Density to parts per (e.g. 1u"ppm" = 1u"mg/l")
     else
-        throw(_eqconversion_error(d, Unitful.unit(x), e))
+        throw(_eqconversion_error(d, D, e))
     end
 end
 

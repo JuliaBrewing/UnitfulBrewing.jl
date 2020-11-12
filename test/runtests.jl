@@ -7,6 +7,7 @@ using Test
     @test UnitfulBrew.𝐂*UnitfulBrew.𝐂 === UnitfulBrew.𝐂^2 # Color
     @test UnitfulBrew.𝐃*UnitfulBrew.𝐃 === UnitfulBrew.𝐃^2 # Diastatic Power
     @test UnitfulBrew.𝐁*UnitfulBrew.𝐁 === UnitfulBrew.𝐁^2 # Bitterness
+    @test UnitfulBrew.𝐏*UnitfulBrew.𝐏 === UnitfulBrew.𝐏^2 # SugarContents
 
     # US Volumes not in Unitful
     @test @macroexpand(u"tsp") == u"tsp"
@@ -24,12 +25,12 @@ using Test
     # sugar content and gravity
     @test @macroexpand(u"°P") == u"°P"
     @test @macroexpand(u"sg") == u"sg"
+    @test @macroexpand(u"gu") == u"gu"
 
     # diastatic power
     @test @macroexpand(u"°Lintner") == u"°Lintner"
     @test @macroexpand(u"°WK") == u"°WK"
     @test uconvert(u"°Lintner", 19u"°WK") == 10u"°Lintner"
-    @test uconvert(u"Lintner", 19u"WK") == 10u"°Lintner"
 
     # color
     @test @macroexpand(u"SRM") == u"SRM"
@@ -50,8 +51,10 @@ using Test
     @test uconvert(u"mg/l", 1u"ppm", Brewing()) === 1u"mg/l"
     @test uconvert(u"kg/l", 10u"percent", Brewing()) === (1//10)u"kg/l"
     @test uconvert(u"ppm", 1u"mg/l", Brewing()) === 1u"ppm"
-    @test uconvert(u"sg", 10u"°P", Brewing()) === 1.0400321211458716u"sg"
+    @test uconvert(u"sg", 10u"°P", Brewing()) ≈ 1.040032121u"sg"
+    @test uconvert(u"gu", 10u"°P", Brewing()) ≈ 40.032121u"gu" (atol = 0.000001u"gu")
     @test uconvert(u"°P", 1.040u"sg", Brewing()) ≈ 9.99224u"°P"
+    @test uconvert(u"°P", 40u"gu", Brewing()) ≈ 9.99224u"°P"
 
     # Throw errors
     @test_throws LoadError @macroexpand(u"ton Lovi")
