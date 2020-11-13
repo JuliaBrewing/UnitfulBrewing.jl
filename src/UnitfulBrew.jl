@@ -8,8 +8,8 @@ module UnitfulBrew
 
 using Unitful
 
-using UnitfulEquivalences: dimtype, @equivalence
-import UnitfulEquivalences: edconvert
+using UnitfulEquivalences: @equivalence, @eqrelation
+import UnitfulEquivalences: dimtype, edconvert
 
 export DensityConcentration, SugarGravity
 
@@ -146,6 +146,9 @@ function plato_to_gu(p::Number)
     end
 end
 
+# Extend UnitfulEquivalences.dimtype to accept NoDims dimension
+dimtype(::Unitful.Dimensions{()}) = typeof(Unitful.NoDims)
+
 # Define the equivalences
 
 _eqconversion_error(v, u, e) = error("$e does not define conversion from $u to $v")
@@ -168,15 +171,11 @@ julia> uconvert(u"ppm", 1u"g/l", DensityConcentration())
 """
 @equivalence DensityConcentration
 
-function edconvert(d::dimtype(Unitful.Density), x::Unitful.Quantity{T,D,U}, 
-    e::DensityConcentration) where {T,D,U}
-    D == NoDims ? x * 1u"kg/L" : throw(_eqconversion_error(d, D, e))
-end
+#@eqrelation DensityConcentration Unitful.Density / Unitful.NoDims = 1u"kg/l"
 
-function edconvert(d::Unitful.Dimensions{()}, x::Unitful.Quantity{T,D,U},
-    e::DensityConcentration) where {T,D,U}
-    D == Unitful.𝐌/Unitful.𝐋^3 ? x * 1u"L/kg" : throw(_eqconversion_error(d, D, e))
-end
+edconvert(d::dimtype(Unitful.Density), x::Unitful.DimensionlessQuantity, e::DensityConcentration) = x * 1u"kg/l"
+
+edconvert(d::dimtype(NoDims), x::Unitful.Density, e::DensityConcentration) = x * 1u"L/kg"
 
 """
     SugarGravity()
