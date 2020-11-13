@@ -7,7 +7,7 @@ Module extending Unitful.jl with beer brewing units.
 module UnitfulBrew
 
 using Unitful
-#using UnitfulEquivalences
+
 using UnitfulEquivalences: dimtype, @equivalence
 import UnitfulEquivalences: edconvert
 
@@ -212,10 +212,6 @@ julia> uconvert(u"°P", 40u"gu", SugarGravity())
 @equivalence SugarGravity
 
 edconvert(d::dimtype(Unitful.Density), x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} = D == Unitful.NoDims ? x * 1u"kg/L" : throw(_eqconversion_error(d, D, e))
-
-#edconvert(::Unitful.Dimensions{()}, x::UnitfulBrew.SugarContents, ::SugarGravity) = plato_to_gu(x.val) * UnitfulBrew.gu
-
-# edconvert(::dimtype(SugarContents), x::Unitful.NoUnits, ::SugarGravity) = gu_to_plato(uconvert(UnitfulBrew.gu, x).val) * UnitfulBrew.°P
 
 function edconvert(d::dimtype(SugarContents), x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} 
     if D == NoDims
