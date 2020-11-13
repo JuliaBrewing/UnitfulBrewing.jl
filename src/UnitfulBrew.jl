@@ -11,7 +11,7 @@ using Unitful
 using UnitfulEquivalences: dimtype, @equivalence
 import UnitfulEquivalences: edconvert
 
-export Brewing
+export DensityConcentration, SugarGravity
 
 # New dimensions
 @dimension 𝐂    "C"     Color
@@ -65,7 +65,7 @@ const Lintner = °Lintner
 
 # Color units
 @refunit    SRM     "SRM"       SRM                 𝐂               false
-@unit       °L      "°L"        Lovibond            1SRM            false
+@unit       °L      "°L"        Lovibond            1SRM            false      
 @unit       EBC     "EBC"       EBC                 (197//100)SRM   false
 const srm = SRM
 const Lovi = °L
@@ -93,7 +93,8 @@ so we only add ppm, ppb, and ppt
 @logscale pH⁺    "pH⁺"       powerofHydrogen      10      10      false
 const pwrH = pH⁺ # either pH\^+<ESC> or, with dead keys, pH\^<SPACE>+<ESC>
 #=
-Using symbols pwrH and pH⁺ since there is a dimensional symbol pH already defined in Unitful:
+Using symbols pwrH and pH⁺ since there is a dimensional symbol pH already
+defined in Unitful:
 ```julia-repl
 julia> typeof(Unitful.pH)
 Unitful.FreeUnits{(pH,),𝐋² 𝐌 𝐈⁻² 𝐓⁻²,nothing}
@@ -150,36 +151,73 @@ end
 _eqconversion_error(v, u, e) = error("$e does not define conversion from $u to $v")
 
 """
-    Brewing()
+    DensityConcentration()
 
-Equivalence to convert brewing related quantities.
-
-* Convert between Density and NoDims according to a linear relation with 1u"mg/L" equivalent to 1u"ppm"
-
-* Convert between degrees Plato and specific gravity (need to include gravity points, as well)
+Equivalence to convert between Density and Concentration for water-based
+solutions, with relatively small quantities of solutes, as in water treatment,
+so that 1 mg/L is equivalent to 1 ppm (parts per million).
 
 # Examples
 
 ```jldoctest
-julia> uconvert(u"mg/l", 10u"ppm", Brewing())
+julia> uconvert(u"mg/l", 10u"ppm", DensityConcentration())
 10 mg L⁻¹
-julia> uconvert(u"ppm", 1u"g/l", Brewing())
+julia> uconvert(u"ppm", 1u"g/l", DensityConcentration())
 1000 ppm
-julia> uconvert(u"°P", 1.040u"sg", Brewing())
-9.992240000000066 °P
-julia> uconvert(u"sg", 15u"°P", Brewing())
-1.0611068377146742 sg
 ```
 """
-@equivalence Brewing
+@equivalence DensityConcentration
 
-edconvert(d::dimtype(Unitful.Density), x::Unitful.Quantity{T,D,U}, e::Brewing) where {T,D,U} = D == Unitful.NoDims ? x * 1u"kg/L" : throw(_eqconversion_error(d, D, e))
+function edconvert(d::dimtype(Unitful.Density), x::Unitful.Quantity{T,D,U}, 
+    e::DensityConcentration) where {T,D,U}
+    D == NoDims ? x * 1u"kg/L" : throw(_eqconversion_error(d, D, e))
+end
 
-#edconvert(::Unitful.Dimensions{()}, x::UnitfulBrew.SugarContents, ::Brewing) = plato_to_gu(x.val) * UnitfulBrew.gu
+function edconvert(d::Unitful.Dimensions{()}, x::Unitful.Quantity{T,D,U},
+    e::DensityConcentration) where {T,D,U}
+    D == Unitful.𝐌/Unitful.𝐋^3 ? x * 1u"L/kg" : throw(_eqconversion_error(d, D, e))
+end
 
-# edconvert(::dimtype(SugarContents), x::Unitful.NoUnits, ::Brewing) = gu_to_plato(uconvert(UnitfulBrew.gu, x).val) * UnitfulBrew.°P
+"""
+    SugarGravity()
 
-function edconvert(d::dimtype(SugarContents), x::Unitful.Quantity{T,D,U}, e::Brewing) where {T,D,U} 
+Equivalence to convert between Sugar Contents and Specific Gravity quantities.
+
+Convert between degrees Plato and gravity units according to the quadratic
+equation
+
+    Plato = 0.25802gu - 0.00020535gu^2,
+
+which is equivalent to the formula for specific gravity
+
+    Plato = 668.72 * sg - 463.37 - 205.35 * sg^2,
+
+with
+
+    gu = 1000 ( sg - 1.000 ).
+
+# Examples
+
+```jldoctest
+julia> uconvert(u"°P", 1.040u"sg", SugarGravity())
+9.992240000000002 °P
+julia> uconvert(u"sg", 15u"°P", SugarGravity())
+1.0611068377146748 sg
+julia> uconvert(u"gu", 12u"°P", SugarGravity())
+48.370088784473296 gu
+julia> uconvert(u"°P", 40u"gu", SugarGravity())
+9.992240000000002 °P
+```
+"""
+@equivalence SugarGravity
+
+edconvert(d::dimtype(Unitful.Density), x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} = D == Unitful.NoDims ? x * 1u"kg/L" : throw(_eqconversion_error(d, D, e))
+
+#edconvert(::Unitful.Dimensions{()}, x::UnitfulBrew.SugarContents, ::SugarGravity) = plato_to_gu(x.val) * UnitfulBrew.gu
+
+# edconvert(::dimtype(SugarContents), x::Unitful.NoUnits, ::SugarGravity) = gu_to_plato(uconvert(UnitfulBrew.gu, x).val) * UnitfulBrew.°P
+
+function edconvert(d::dimtype(SugarContents), x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} 
     if D == NoDims
         gu_to_plato(uconvert(UnitfulBrew.gu, x).val) * UnitfulBrew.°P
     else
@@ -187,11 +225,9 @@ function edconvert(d::dimtype(SugarContents), x::Unitful.Quantity{T,D,U}, e::Bre
     end
 end
 
-function edconvert(d::Unitful.Dimensions{()}, x::Unitful.Quantity{T,D,U}, e::Brewing) where {T,D,U} 
+function edconvert(d::Unitful.Dimensions{()}, x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} 
     if D == UnitfulBrew.𝐏
         plato_to_gu(uconvert(UnitfulBrew.°P, x).val) * UnitfulBrew.gu
-    elseif D == Unitful.𝐌/Unitful.𝐋^3
-        x * 1u"L/kg" # Density to parts per (e.g. 1u"ppm" = 1u"mg/l")
     else
         throw(_eqconversion_error(d, D, e))
     end

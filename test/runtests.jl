@@ -2,7 +2,7 @@ using Unitful
 using UnitfulBrew
 using Test
 
-@testset "Brew quantities" begin
+@testset "Dimensions and quantities" begin
     # new dimensions
     @test UnitfulBrew.𝐂*UnitfulBrew.𝐂 === UnitfulBrew.𝐂^2 # Color
     @test UnitfulBrew.𝐃*UnitfulBrew.𝐃 === UnitfulBrew.𝐃^2 # Diastatic Power
@@ -47,16 +47,20 @@ using Test
     @test uconvert(u"week", 7u"day") == 1u"wk"
     @test uconvert(u"min", 60u"sec") == 1u"min"
 
-    # equivalencies
-    @test uconvert(u"mg/l", 1u"ppm", Brewing()) === 1u"mg/l"
-    @test uconvert(u"kg/l", 10u"percent", Brewing()) === (1//10)u"kg/l"
-    @test uconvert(u"ppm", 1u"mg/l", Brewing()) === 1u"ppm"
-    @test uconvert(u"sg", 10u"°P", Brewing()) ≈ 1.040032121u"sg"
-    @test uconvert(u"gu", 10u"°P", Brewing()) ≈ 40.032121u"gu" (atol = 0.000001u"gu")
-    @test uconvert(u"°P", 1.040u"sg", Brewing()) ≈ 9.99224u"°P"
-    @test uconvert(u"°P", 40u"gu", Brewing()) ≈ 9.99224u"°P"
-
     # Throw errors
     @test_throws LoadError @macroexpand(u"ton Lovi")
     @test_throws LoadError @macroexpand(u"Lovibond")
+end
+
+@testset "Equivalences" begin
+    # density and concentration
+    @test uconvert(u"mg/l", 1u"ppm", DensityConcentration()) === 1u"mg/l"
+    @test uconvert(u"kg/l", 10u"percent", DensityConcentration()) === (1//10)u"kg/l"
+    @test uconvert(u"ppm", 1u"mg/l", DensityConcentration()) === 1u"ppm"
+
+    # sugar contents and gravity
+    @test uconvert(u"sg", 10u"°P", SugarGravity()) ≈ 1.040032121u"sg"
+    @test uconvert(u"gu", 10u"°P", SugarGravity()) ≈ 40.032121u"gu" (atol = 0.000001u"gu")
+    @test uconvert(u"°P", 1.040u"sg", SugarGravity()) ≈ 9.99224u"°P"
+    @test uconvert(u"°P", 40u"gu", SugarGravity()) ≈ 9.99224u"°P"
 end
