@@ -8,8 +8,8 @@ module UnitfulBrew
 
 using Unitful
 
-using UnitfulEquivalences: @equivalence, @eqrelation
-import UnitfulEquivalences: dimtype, edconvert
+using UnitfulEquivalences: Equivalence, dimtype, @eqrelation
+import UnitfulEquivalences: edconvert
 
 export DensityConcentration, SugarGravity
 
@@ -146,9 +146,6 @@ function plato_to_gu(p::Number)
     end
 end
 
-# Extend UnitfulEquivalences.dimtype to accept NoDims dimension
-dimtype(::Unitful.Dimensions{()}) = typeof(Unitful.NoDims)
-
 # Define the equivalences
 
 _eqconversion_error(v, u, e) = error("$e does not define conversion from $u to $v")
@@ -169,13 +166,13 @@ julia> uconvert(u"ppm", 1u"g/l", DensityConcentration())
 1000 ppm
 ```
 """
-@equivalence DensityConcentration
+struct DensityConcentration <: Equivalence end
 
-#@eqrelation DensityConcentration Unitful.Density / Unitful.NoDims = 1u"kg/l"
+#@eqrelation DensityConcentration Unitful.Density / Unitful.DimensionlessQuantity = 1u"kg/l"
 
-edconvert(d::dimtype(Unitful.Density), x::Unitful.DimensionlessQuantity, e::DensityConcentration) = x * 1u"kg/l"
+edconvert(::dimtype(Unitful.Density), x::Unitful.DimensionlessQuantity, ::DensityConcentration) = x * 1u"kg/l"
 
-edconvert(d::dimtype(NoDims), x::Unitful.Density, e::DensityConcentration) = x * 1u"L/kg"
+edconvert(::dimtype(Unitful.DimensionlessQuantity), x::Unitful.Density, ::DensityConcentration) = x * 1u"L/kg"
 
 """
     SugarGravity()
@@ -208,9 +205,9 @@ julia> uconvert(u"°P", 40u"gu", SugarGravity())
 9.992240000000002 °P
 ```
 """
-@equivalence SugarGravity
+struct SugarGravity <: Equivalence end
 
-edconvert(d::dimtype(Unitful.Density), x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} = D == Unitful.NoDims ? x * 1u"kg/L" : throw(_eqconversion_error(d, D, e))
+#edconvert(d::dimtype(Unitful.Density), x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} = D == Unitful.NoDims ? x * 1u"kg/L" : throw(_eqconversion_error(d, D, e))
 
 function edconvert(d::dimtype(SugarContents), x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} 
     if D == NoDims

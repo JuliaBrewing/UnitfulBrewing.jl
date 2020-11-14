@@ -27,7 +27,7 @@ version = "1.5.0"
 
 [[UnitfulEquivalences]]
 deps = ["Unitful"]
-git-tree-sha1 = "a4103bcbb3451f6ea01e32e055ce405050d9ef2d"
+git-tree-sha1 = "e5e31297ea5d7dbe6cbc74ebcebab3af8a61eb0c"
 repo-rev = "main"
 repo-url = "https://github.com/sostock/UnitfulEquivalences.jl"
 uuid = "da9c4bc3-91c8-4f02-8a40-6b990d2a7e0c"
