@@ -56,7 +56,7 @@ end
     # density and concentration
     @test uconvert(u"mg/l", 1u"ppm", DensityConcentration()) === 1u"mg/l"
     @test uconvert(u"kg/l", 10u"percent", DensityConcentration()) === (1//10)u"kg/l"
-    @test uconvert(u"ppm", 1u"mg/l", DensityConcentration()) === 1u"ppm"
+    @test uconvert(u"ppm", 1u"mg/l", DensityConcentration()) === 1.0u"ppm"
 
     # sugar contents and gravity
     @test uconvert(u"sg", 10u"°P", SugarGravity()) ≈ 1.040032121u"sg"

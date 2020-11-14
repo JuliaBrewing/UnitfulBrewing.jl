@@ -168,11 +168,7 @@ julia> uconvert(u"ppm", 1u"g/l", DensityConcentration())
 """
 struct DensityConcentration <: Equivalence end
 
-#@eqrelation DensityConcentration Unitful.Density / Unitful.DimensionlessQuantity = 1u"kg/l"
-
-edconvert(::dimtype(Unitful.Density), x::Unitful.DimensionlessQuantity, ::DensityConcentration) = x * 1u"kg/l"
-
-edconvert(::dimtype(Unitful.DimensionlessQuantity), x::Unitful.Density, ::DensityConcentration) = x * 1u"L/kg"
+@eqrelation DensityConcentration Unitful.Density / Unitful.DimensionlessQuantity = 1u"kg/l"
 
 """
     SugarGravity()
