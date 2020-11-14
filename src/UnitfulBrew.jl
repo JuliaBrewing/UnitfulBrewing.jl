@@ -61,7 +61,6 @@ const gp = gu # gravity points
 @refunit        °Lintner    "°Lintner"  Lintner     𝐃                   false
 @unit           °WK_aux     "°WK_aux"   WK_aux      (10//35)°Lintner    false
 @affineunit     °WK         "°WK"       16°WK_aux
-const Lintner = °Lintner
 
 # Color units
 @refunit    SRM     "SRM"       SRM                 𝐂               false
