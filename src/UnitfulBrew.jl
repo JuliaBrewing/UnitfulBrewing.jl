@@ -148,8 +148,6 @@ end
 
 # Define the equivalences
 
-_eqconversion_error(v, u, e) = error("$e does not define conversion from $u to $v")
-
 """
     DensityConcentration()
 
@@ -203,23 +201,11 @@ julia> uconvert(u"°P", 40u"gu", SugarGravity())
 """
 struct SugarGravity <: Equivalence end
 
-#edconvert(d::dimtype(Unitful.Density), x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} = D == Unitful.NoDims ? x * 1u"kg/L" : throw(_eqconversion_error(d, D, e))
+edconvert(::dimtype(SugarContents), x::Unitful.DimensionlessQuantity,
+    ::SugarGravity) = gu_to_plato(uconvert(gu, x).val) * °P
 
-function edconvert(d::dimtype(SugarContents), x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} 
-    if D == NoDims
-        gu_to_plato(uconvert(UnitfulBrew.gu, x).val) * UnitfulBrew.°P
-    else
-        throw(_eqconversion_error(d, D, e))
-    end
-end
-
-function edconvert(d::Unitful.Dimensions{()}, x::Unitful.Quantity{T,D,U}, e::SugarGravity) where {T,D,U} 
-    if D == UnitfulBrew.𝐏
-        plato_to_gu(uconvert(UnitfulBrew.°P, x).val) * UnitfulBrew.gu
-    else
-        throw(_eqconversion_error(d, D, e))
-    end
-end
+edconvert(::dimtype(Unitful.DimensionlessQuantity), x::SugarContents,
+    ::SugarGravity) = plato_to_gu(uconvert(°P, x).val) * gu
 
 # The function below is just so I get things straight
 function show_quantity_info(x::Quantity{T,D,U}) where {T,D,U}
