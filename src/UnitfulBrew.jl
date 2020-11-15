@@ -17,7 +17,7 @@ export DensityConcentration, SugarGravity
 @dimension 𝐂    "C"     Color
 @dimension 𝐃    "𝐃"     DiastaticPower
 @dimension 𝐁    "𝐁"     Bitterness
-@dimension 𝐏    "𝐏"     SugarContents
+@dimension 𝐒    "S"     SugarContents
 
 # Time units: adding beerjson symbols as alias to Unitful symbols
 const sec = Unitful.s
@@ -44,7 +44,7 @@ const week = Unitful.wk
 @unit ibbl      "ibbl"      ImperialBarrel      36igal                  false
 
 # Sugar content
-@refunit °P     "°P"        Plato               𝐏           false
+@refunit °P     "°P"        Plato               𝐒           false
 @unit Brix      "Brix"      Brix                1°P         false
 @unit Balling   "Balling"   Balling             1°P         false
 const P = °P

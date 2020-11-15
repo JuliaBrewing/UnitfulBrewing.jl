@@ -7,7 +7,7 @@ using Test
     @test UnitfulBrew.𝐂*UnitfulBrew.𝐂 === UnitfulBrew.𝐂^2 # Color
     @test UnitfulBrew.𝐃*UnitfulBrew.𝐃 === UnitfulBrew.𝐃^2 # Diastatic Power
     @test UnitfulBrew.𝐁*UnitfulBrew.𝐁 === UnitfulBrew.𝐁^2 # Bitterness
-    @test UnitfulBrew.𝐏*UnitfulBrew.𝐏 === UnitfulBrew.𝐏^2 # SugarContents
+    @test UnitfulBrew.𝐒*UnitfulBrew.𝐒 === UnitfulBrew.𝐒^2 # SugarContents
 
     # US Volumes not in Unitful
     @test @macroexpand(u"tsp") == u"tsp"

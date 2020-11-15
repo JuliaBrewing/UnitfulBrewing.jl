@@ -10,11 +10,11 @@ We add the following dimensions and units in this package:
   - 𝐂 for Color
   - 𝐃 for Diastatic Power
   - 𝐁 for Bitterness
-  - 𝐏 for Sugar Contents
+  - 𝐒 for Sugar Contents
 
 - Units:
   - Sugar contents:
-    - `°P` standing for degrees Plato, as the reference unit for dimension 𝐏
+    - `°P` standing for degrees Plato, as the reference unit for dimension 𝐒
     - `Brix`, which currently is equal to `°P`
     - `Balling`, which currently is equal to `°P`
   - Specific gravity:
