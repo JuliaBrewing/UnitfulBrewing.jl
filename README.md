@@ -41,7 +41,7 @@ We add the following dimensions and units in this package:
     - `pH⁺` is a logarithmic unit standing for the *power of hydrogen*.
     - `pwrH` serves as an alias for `pH⁺`
     - The classic symbol `pH` is already taken in [Unitful.jl](https://github.com/PainterQubits/Unitful.jl), with `Unitful.pH` representing picoHenry, where Henry (H) is the SI unit of electrical inductance, with dimension 𝐋² 𝐌 𝐈⁻² 𝐓⁻²
-  - Time units (just aliases relating the notation used in the BeerJSON format standard [beerjson](https://github.com/beerjson/beerjson) (under development) to those defind in [Unitful.jl](https://github.com/PainterQubits/Unitful.jl)):
+  - Time units (just aliases relating the notation used in the [BeerJSON format standard](https://github.com/beerjson/beerjson) (under development) to those defined in [Unitful.jl](https://github.com/PainterQubits/Unitful.jl)):
     - `sec` equals `Unitful.s`
     - `min` equals `Unitful.minute`
     - `day` equals `Unitful.d`
@@ -53,7 +53,7 @@ We add the following dimensions and units in this package:
 
 ## Equivalences
 
-Although degrees Plato and specific gravity measure different things, they are both used for estimating the amount of fermentables in the wort. Moreover, it is common to treat them interchangeably, according to a suitable quadratic relation between them. In order to account for that, we use here the package [`UnitfulEquivalences.jl`](https://github.com/sostock/UnitfulEquivalences.jl) (under development), which is inspired by the equivalences in [astropy.units: equivalencies](https://docs.astropy.org/en/stable/units/equivalencies.html).
+Although degrees Plato and specific gravity measure different things, they are both used for estimating the amount of fermentables in the wort. Moreover, it is common to treat them interchangeably, according to a suitable quadratic relation between them. In order to account for that, we use here the package [`UnitfulEquivalences.jl`](https://github.com/sostock/UnitfulEquivalences.jl) (under development), which is inspired by [astropy.units: equivalencies](https://docs.astropy.org/en/stable/units/equivalencies.html).
 
 Similarly, as it is commonly done in he brewing community (and in other fields considering small quantities of solutes dissolved in water), `ppm` and `mg/l` are also treated interchangeably.
 
