@@ -52,7 +52,7 @@ using Test
 
     # Throw errors
     @test_throws LoadError @macroexpand(u"ton Lovi")
-    @test_throws LoadError @macroexpand(u"Lovibond")
+    @test_throws LoadError @macroexpand(u"lovibond")
 end
 
 @testset "Equivalences" begin
