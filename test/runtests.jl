@@ -61,9 +61,15 @@ end
     @test uconvert(u"kg/l", 10u"percent", DensityConcentration()) === (1//10)u"kg/l"
     @test uconvert(u"ppm", 1u"mg/l", DensityConcentration()) === 1.0u"ppm"
 
-    # sugar contents and gravity
-    @test uconvert(u"sg", 10u"°P", SugarGravity()) ≈ 1.040032121u"sg"
-    @test uconvert(u"gu", 10u"°P", SugarGravity()) ≈ 40.032121u"gu" (atol = 0.000001u"gu")
-    @test uconvert(u"°P", 1.040u"sg", SugarGravity()) ≈ 9.99224u"°P"
-    @test uconvert(u"°P", 40u"gu", SugarGravity()) ≈ 9.99224u"°P"
+    # sugar contents and gravity with SugarGravity
+    @test uconvert(u"sg", 10u"°P", SugarGravity()) ≈ 1.0401606425u"sg"
+    @test uconvert(u"gu", 10u"°P", SugarGravity()) ≈ 40.160642u"gu"
+    @test uconvert(u"°P", 1.040u"sg", SugarGravity()) ≈ 9.9615384615u"°P"
+    @test uconvert(u"°P", 40u"gu", SugarGravity()) ≈ 9.9615384615u"°P"
+
+    # sugar contents and gravity with SugarGravity2
+    @test uconvert(u"sg", 10u"°P", SugarGravity2()) ≈ 1.040032121u"sg"
+    @test uconvert(u"gu", 10u"°P", SugarGravity2()) ≈ 40.03u"gu" (atol = 0.01u"gu")
+    @test uconvert(u"°P", 1.040u"sg", SugarGravity2()) ≈ 9.99224u"°P"
+    @test uconvert(u"°P", 40u"gu", SugarGravity2()) ≈ 9.99u"°P" (atol = 0.01u"°P")
 end

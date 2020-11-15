@@ -53,23 +53,38 @@ We add the following dimensions and units in this package:
 
 ## Equivalences
 
-Although degrees Plato and specific gravity measure different things, they are both used for estimating the amount of fermentables in the wort. Moreover, it is common to treat them interchangeably, according to a suitable quadratic relation between them. In order to account for that, we use here the package [`UnitfulEquivalences.jl`](https://github.com/sostock/UnitfulEquivalences.jl) (under development), which is inspired by [astropy.units: equivalencies](https://docs.astropy.org/en/stable/units/equivalencies.html).
+Although degrees Plato and specific gravity measure different things, they are both used for estimating the amount of fermentables in the wort. In fact, it is common to treat them interchangeably, according to suitable nonlinear relations between them. In order to account for that, we use here the package [`UnitfulEquivalences.jl`](https://github.com/sostock/UnitfulEquivalences.jl) (under development), which is inspired by [astropy.units: equivalencies](https://docs.astropy.org/en/stable/units/equivalencies.html). We implement two equivalences, one according to a rational equation and another according to a quadratic equation.
 
 Similarly, as it is commonly done in he brewing community (and in other fields considering small quantities of solutes dissolved in water), `ppm` and `mg/l` are also treated interchangeably.
 
 ### Sugar contents and gravity equivalence
 
-Using the [`UnitfulEquivalences.jl`](https://github.com/sostock/UnitfulEquivalences.jl) package, we define the *equivalence type* `SugarGravity`, to relate degrees Plato to specific gravity and gravity units. With this equivalence type, the transformation between the above quantities is done as in the folowing examples:
+Using the [`UnitfulEquivalences.jl`](https://github.com/sostock/UnitfulEquivalences.jl) package, we define two *equivalence types*, `SugarGravity` and `SugarGravity2`, to relate degrees Plato to specific gravity and gravity units.
+
+The equivalence `SugarGravity` relates a quantity `plato` in degrees Plato to a quantity `sg` in specific gravity according to
+
+$$ \text{plato} = 259 \left(1 - \frac{1}{\text{sg}}\right)
+$$
+
+The equivalence `SugarGravity2` relates such quantities according to the quadratic equation
+
+$$ \text{plato} = 668.72 \,\text{sg} - 463.37 - 205.35 \,\text{sg}^2
+$$
+
+With these equivalence types, the conversions between the above quantities are done as in the folowing examples:
 
 ```julia
 julia> using Unitful
 julia> using UnitfulBrew
 
 julia> uconvert(u"°P", 1.040u"sg", SugarGravity())
-9.992240000000002 °P
+9.961538461538483 °P
 
-julia> uconvert(u"sg", 15u"°P", SugarGravity())
-1.0611068377146748 sg
+julia> uconvert(u"sg", 10u"°P", SugarGravity())
+1.0401606425702812 sg
+
+julia> uconvert(u"gu", 10u"°P", SugarGravity2())
+40.032121145872225 gu
 ```
 
 ### Density and concentration equivalence
