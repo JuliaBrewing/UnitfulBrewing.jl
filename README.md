@@ -19,14 +19,14 @@ We add the following dimensions and units in this package:
     - `Balling`, which currently is equal to `°P`
   - Specific gravity:
     - `sg`, standing for specific gravity, a nondimensional quantity.
-    - `gu`, standing for gravity unit, an affine unit related to `sg` by `gu = 1000 (sg - 1)`, i.e. a specific gravity of $1.040$ equals $40$ gravity units.
+    - `gu`, standing for gravity unit, an affine unit related to `sg` by `gu = 1000 (sg - 1)`, i.e. a specific gravity of 1.040 equals 40 gravity units.
     - `gp` is *gravity point*, which equals `gu`.
   - Bitterness:
     - `IBU`, for *International Bitterness Unit*, as the reference unit for dimension 𝐁
   - Color units:
     - `SRM` is the *Standard Reference Method*, which is taken as the reference unit for beer color.
-    - `EBC`, for *European Brewery Convention*, which is related to `SRM` by `EBC = 1.97 EBC`.
-    - `°L`, standing for *degre Lovibond*, an affine unit related to `SRM` by `SRM = 1.3546 °L - 0.76`.
+    - `EBC`, for *European Brewery Convention*, which is related to `SRM` by `EBC = 1.97 SRM`.
+    - `°L`, standing for *degree Lovibond*, an affine unit related to `SRM` by `SRM = 1.3546 °L - 0.76`.
   - Diastatic power:
     - `°Lintner`, standing for degrees Lintner, as the reference unit for diastatic power.
     - `°WK`, standing for Windisch–Kolbach units, an affine unit which is related to degrees Lintner by `°Lintner` by `°WK = (3.5 * °Lintner) - 16`.
@@ -72,7 +72,7 @@ julia> uconvert(u"sg", 15u"°P", SugarGravity())
 1.0611068377146748 sg
 ```
 
-### Density and concentration
+### Density and concentration equivalence
 
 For the equivalence between density and concentration, we define the *equivalence type* `DensityConcentration`, so that, for example
 
