@@ -37,7 +37,10 @@ using Test
     @test @macroexpand(u"°L") == u"°L"
     @test @macroexpand(u"EBC") == u"EBC"
     @test @macroexpand(u"Lovi") == u"°L"
-    @test uconvert(u"srm", 20u"ebc") == (197//5)u"SRM"
+    @test uconvert(u"srm", 20u"ebc") == (2000//197)u"SRM"
+    @test uconvert(u"EBC", 10u"SRM") == (197//10)u"EBC"
+    @test uconvert(u"°L", 0u"SRM") == (7600//13546)u"°L"
+    @test uconvert(u"°L", 20u"SRM") == (207600//13546)u"°L"
 
     # pH
     @test [1,2,3]u"pwrH" == u"pH⁺" * [1,2,3]

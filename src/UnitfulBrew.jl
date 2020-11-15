@@ -47,6 +47,7 @@ const week = Unitful.wk
 @refunit °P     "°P"        Plato               𝐏           false
 @unit Brix      "Brix"      Brix                1°P         false
 @unit Balling   "Balling"   Balling             1°P         false
+const P = °P
 
 # Specific gravity
 # uconvert(Unitful.NoUnits, 1.010u"sg") == 1.01
@@ -61,13 +62,17 @@ const gp = gu # gravity points
 @refunit        °Lintner    "°Lintner"  Lintner     𝐃                   false
 @unit           °WK_aux     "°WK_aux"   WK_aux      (10//35)°Lintner    false
 @affineunit     °WK         "°WK"       16°WK_aux
+const Lintner = °Lintner
+const WK = °WK
 
 # Color units
-@refunit    SRM     "SRM"       SRM                 𝐂               false
-@unit       °L      "°L"        Lovibond            1SRM            false      
-@unit       EBC     "EBC"       EBC                 (197//100)SRM   false
+@refunit    SRM     "SRM"       SRM                 𝐂                   false      
+@unit       EBC     "EBC"       EBC                 (100//197)SRM       false
+@unit       L_aux   "L_aux"     L_aux               (13546//10000)SRM    false
+@affineunit °L      "°L"        -(7600//13546)L_aux
 const srm = SRM
 const Lovi = °L
+const Lovibond = °L
 const ebc = EBC
 
 # Carbonation units
