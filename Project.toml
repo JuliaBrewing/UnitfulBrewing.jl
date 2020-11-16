@@ -1,5 +1,5 @@
-name = "UnitfulBrew"
-uuid = "eb674140-eaac-43ed-8e42-d536905a33a9"
+name = "UnitfulBrewing"
+uuid = "0971afc3-6d60-4b49-b3a1-be0ef054b0bb"
 license = "MIT"
 desc = "Brewing units extension for Unitful"
 authors = ["Ricardo Rosa <rmsrosa@gmail.com>"]

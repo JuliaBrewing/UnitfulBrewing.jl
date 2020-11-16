@@ -1,4 +1,4 @@
-# UnitfulBrew
+# UnitfulBrewing
 
 A supplemental units package for [Unitful.jl](https://github.com/PainterQubits/Unitful.jl), with units used in the beer brewing process.
 
@@ -75,7 +75,7 @@ With these equivalence types, the conversions between the above quantities are d
 
 ```julia
 julia> using Unitful
-julia> using UnitfulBrew
+julia> using UnitfulBrewing
 
 julia> uconvert(u"°P", 1.040u"sg", SugarGravity())
 9.961538461538483 °P

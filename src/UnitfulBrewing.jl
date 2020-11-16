@@ -1,10 +1,10 @@
 __precompile__(true)
 """
-    UnitfulBrew
+    UnitfulBrewing
 
 Module extending Unitful.jl with beer brewing units.
 """
-module UnitfulBrew
+module UnitfulBrewing
 
 using Unitful
 
@@ -248,6 +248,6 @@ function show_quantity_info(x::Quantity{T,D,U}) where {T,D,U}
 end
 
 # Register the above units and dimensions in Unitful
-__init__() = Unitful.register(UnitfulBrew)
+__init__() = Unitful.register(UnitfulBrewing)
 
 end # module

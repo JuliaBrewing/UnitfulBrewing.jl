@@ -1,13 +1,13 @@
 using Unitful
-using UnitfulBrew
+using UnitfulBrewing
 using Test
 
 @testset "Dimensions and quantities" begin
     # new dimensions
-    @test UnitfulBrew.𝐂*UnitfulBrew.𝐂 === UnitfulBrew.𝐂^2 # Color
-    @test UnitfulBrew.𝐃*UnitfulBrew.𝐃 === UnitfulBrew.𝐃^2 # Diastatic Power
-    @test UnitfulBrew.𝐁*UnitfulBrew.𝐁 === UnitfulBrew.𝐁^2 # Bitterness
-    @test UnitfulBrew.𝐒*UnitfulBrew.𝐒 === UnitfulBrew.𝐒^2 # SugarContents
+    @test UnitfulBrewing.𝐂*UnitfulBrewing.𝐂 === UnitfulBrewing.𝐂^2 # Color
+    @test UnitfulBrewing.𝐃*UnitfulBrewing.𝐃 === UnitfulBrewing.𝐃^2 # Diastatic Power
+    @test UnitfulBrewing.𝐁*UnitfulBrewing.𝐁 === UnitfulBrewing.𝐁^2 # Bitterness
+    @test UnitfulBrewing.𝐒*UnitfulBrewing.𝐒 === UnitfulBrewing.𝐒^2 # SugarContents
 
     # US Volumes not in Unitful
     @test @macroexpand(u"tsp") == u"tsp"
