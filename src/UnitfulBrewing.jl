@@ -25,23 +25,26 @@ const min = Unitful.minute
 const day = Unitful.d
 const week = Unitful.wk
 
-# US Volumes
+# US volumes
 @unit gal       "gal"       Gallon      231*(Unitful.inch)^3    false
 @unit qt        "qt"        Quart       gal//4                  false
 @unit pt        "pt"        Pint        qt//2                   false
-@unit cup       "cup"       Cup         pt//2                   false
 @unit floz      "floz"      FluidOunce  pt//16                  false
-@unit tbsp      "tbsp"      Tablespoon  floz//2                 false
-@unit tsp       "tsp"       Teaspoon    tbsp//3                 false
 @unit bbl       "bbl"       Barrel      42gal                   false
 
-# Imperial Volumes
+# Imperial volumes
 @unit ifloz     "ifloz"     ImperialFluidOunce  28.4130625*(Unitful.mm) false
 @unit gi        "gi"        Gill                5ifloz                  false
 @unit ipt       "ipt"       ImperialPint        20ifloz                 false
 @unit iqt       "iqt"       ImperialQuart       2ipt                    false
 @unit igal      "igal"      ImperialGallon      8ipt                    false
 @unit ibbl      "ibbl"      ImperialBarrel      36igal                  false
+
+# Culinary volumes
+@unit cup       "cup"       Cup         pt//2                   false
+@unit tbsp      "tbsp"      Tablespoon  cup//16                 false
+@unit tsp       "tsp"       Teaspoon    tbsp//3                 false
+
 
 # Sugar content
 @refunit °P     "°P"        Plato               𝐒           false
