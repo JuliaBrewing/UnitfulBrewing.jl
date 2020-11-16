@@ -11,7 +11,7 @@ using Unitful
 using UnitfulEquivalences: Equivalence, dimtype, @eqrelation
 import UnitfulEquivalences: edconvert
 
-export DensityConcentration, SugarGravity, SugarGravity2
+export DensityConcentration, SugarGravity, SugarGravityQuad
 
 # New dimensions
 @dimension 𝐂    "C"     Color
@@ -185,13 +185,13 @@ Convert between degrees Plato and specific gravity according to the equation
 
 ```jldoctest
 julia> uconvert(u"°P", 1.040u"sg", SugarGravity())
-9.992240000000002 °P
+9.961538461538483 °P
 julia> uconvert(u"sg", 15u"°P", SugarGravity())
-1.0611068377146748 sg
+1.0614754098360655 sg
 julia> uconvert(u"gu", 12u"°P", SugarGravity())
-48.370088784473296 gu
+48.58299595141693 gu
 julia> uconvert(u"°P", 40u"gu", SugarGravity())
-9.992240000000002 °P
+9.961538461538483 °P
 ```
 """
 struct SugarGravity <: Equivalence end
@@ -203,7 +203,7 @@ edconvert(::dimtype(Unitful.DimensionlessQuantity), x::SugarContents,
     ::SugarGravity) = 259 / (259 - uconvert(°P, x).val) * sg
 
 """
-    SugarGravity2()
+    SugarGravityQuad()
 
 Equivalence to convert between Sugar Contents and Specific Gravity quantities.
 
@@ -223,23 +223,23 @@ with
 # Examples
 
 ```jldoctest
-julia> uconvert(u"°P", 1.040u"sg", SugarGravity2())
+julia> uconvert(u"°P", 1.040u"sg", SugarGravityQuad())
 9.992240000000002 °P
-julia> uconvert(u"sg", 15u"°P", SugarGravity2())
+julia> uconvert(u"sg", 15u"°P", SugarGravityQuad())
 1.0611068377146748 sg
-julia> uconvert(u"gu", 12u"°P", SugarGravity2())
+julia> uconvert(u"gu", 12u"°P", SugarGravityQuad())
 48.370088784473296 gu
-julia> uconvert(u"°P", 40u"gu", SugarGravity2())
+julia> uconvert(u"°P", 40u"gu", SugarGravityQuad())
 9.992240000000002 °P
 ```
 """
-struct SugarGravity2 <: Equivalence end
+struct SugarGravityQuad <: Equivalence end
 
 edconvert(::dimtype(SugarContents), x::Unitful.DimensionlessQuantity,
-    ::SugarGravity2) = gu_to_plato(uconvert(gu, x).val) * °P
+    ::SugarGravityQuad) = gu_to_plato(uconvert(gu, x).val) * °P
 
 edconvert(::dimtype(Unitful.DimensionlessQuantity), x::SugarContents,
-    ::SugarGravity2) = plato_to_gu(uconvert(°P, x).val) * gu
+    ::SugarGravityQuad) = plato_to_gu(uconvert(°P, x).val) * gu
 
 # The function below is just so I get things straight
 function show_quantity_info(x::Quantity{T,D,U}) where {T,D,U}

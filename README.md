@@ -59,14 +59,14 @@ Similarly, as it is commonly done in he brewing community (and in other fields c
 
 ### Sugar contents and gravity equivalence
 
-Using the [`UnitfulEquivalences.jl`](https://github.com/sostock/UnitfulEquivalences.jl) package, we define two *equivalence types*, `SugarGravity` and `SugarGravity2`, to relate degrees Plato to specific gravity and gravity units.
+Using the [`UnitfulEquivalences.jl`](https://github.com/sostock/UnitfulEquivalences.jl) package, we define two *equivalence types*, `SugarGravity` and `SugarGravityQuad`, to relate degrees Plato to specific gravity and gravity units.
 
 The equivalence `SugarGravity` relates a quantity `plato` in degrees Plato to a quantity `sg` in specific gravity according to
 
 $$ \text{plato} = 259 \left(1 - \frac{1}{\text{sg}}\right)
 $$
 
-The equivalence `SugarGravity2` relates such quantities according to the quadratic equation
+The equivalence `SugarGravityQuad` relates such quantities according to the quadratic equation
 
 $$ \text{plato} = 668.72 \,\text{sg} - 463.37 - 205.35 \,\text{sg}^2
 $$
@@ -83,9 +83,11 @@ julia> uconvert(u"°P", 1.040u"sg", SugarGravity())
 julia> uconvert(u"sg", 10u"°P", SugarGravity())
 1.0401606425702812 sg
 
-julia> uconvert(u"gu", 10u"°P", SugarGravity2())
+julia> uconvert(u"gu", 10u"°P", SugarGravityQuad())
 40.032121145872225 gu
 ```
+
+The relative difference between these two equivalences, in the range of interest, say from 0°P up to 30°P, is of less than 0.4%.
 
 ### Density and concentration equivalence
 

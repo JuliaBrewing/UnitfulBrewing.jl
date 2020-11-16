@@ -67,9 +67,9 @@ end
     @test uconvert(u"°P", 1.040u"sg", SugarGravity()) ≈ 9.9615384615u"°P"
     @test uconvert(u"°P", 40u"gu", SugarGravity()) ≈ 9.9615384615u"°P"
 
-    # sugar contents and gravity with SugarGravity2
-    @test uconvert(u"sg", 10u"°P", SugarGravity2()) ≈ 1.040032121u"sg"
-    @test uconvert(u"gu", 10u"°P", SugarGravity2()) ≈ 40.03u"gu" (atol = 0.01u"gu")
-    @test uconvert(u"°P", 1.040u"sg", SugarGravity2()) ≈ 9.99224u"°P"
-    @test uconvert(u"°P", 40u"gu", SugarGravity2()) ≈ 9.99u"°P" (atol = 0.01u"°P")
+    # sugar contents and gravity with SugarGravityQuad
+    @test uconvert(u"sg", 10u"°P", SugarGravityQuad()) ≈ 1.040032121u"sg"
+    @test uconvert(u"gu", 10u"°P", SugarGravityQuad()) ≈ 40.03u"gu" (atol = 0.01u"gu")
+    @test uconvert(u"°P", 1.040u"sg", SugarGravityQuad()) ≈ 9.99224u"°P"
+    @test uconvert(u"°P", 40u"gu", SugarGravityQuad()) ≈ 9.99u"°P" (atol = 0.01u"°P")
 end
