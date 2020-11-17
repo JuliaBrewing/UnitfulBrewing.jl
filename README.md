@@ -86,7 +86,6 @@ The equivalence `SugarGravityQuad` relates such quantities according to the quad
 
 ![formula](https://render.githubusercontent.com/render/math?math=\text{Plato}=668.72\text{sg}-463.37-205.35\text{sg}^2)
 
-
 With these equivalence types, the conversions between the above quantities are done as in the folowing examples:
 
 ```julia
