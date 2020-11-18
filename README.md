@@ -80,11 +80,11 @@ Using the [UnitfulEquivalences.jl](https://github.com/sostock/UnitfulEquivalence
 
 The equivalence `SugarGravity` relates a quantity `plato` in degrees Plato to a quantity `sg` in specific gravity according to
 
-![formula](https://render.githubusercontent.com/render/math?math=\text{Plato}=259\left(1-\displaystyle\frac{1}{\text{sg}}\right))
+![formula](https://render.githubusercontent.com/render/math?math=\qquad\qquad\text{Plato}=259\left(1-\displaystyle\frac{1}{\text{sg}}\right))
 
 The equivalence `SugarGravityQuad` relates such quantities according to the quadratic equation
 
-![formula](https://render.githubusercontent.com/render/math?math=\text{Plato}=668.72\text{sg}-463.37-205.35\text{sg}^2)
+![formula](https://render.githubusercontent.com/render/math?math=\qquad\qquad\text{Plato}=668.72\text{sg}-463.37-205.35\text{sg}^2)
 
 With these equivalence types, the conversions between the above quantities are done as in the folowing examples:
 
