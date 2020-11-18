@@ -16,7 +16,7 @@ We add the following dimensions and units in this package:
 
 - Units:
   - Sugar contents:
-    - `°P` standing for degrees Plato, as the reference unit for dimension 𝐒
+    - `°P` standing for degrees Plato, as the reference unit for dimension 𝐒𝐂
     - `Brix`, which currently is equal to `°P`
     - `Balling`, which currently is equal to `°P`
   - Specific gravity:
@@ -24,13 +24,13 @@ We add the following dimensions and units in this package:
     - `gu`, standing for gravity unit, an affine unit related to `sg` by `gu = 1000 (sg - 1)`, i.e. a specific gravity of 1.040 equals 40 gravity units.
     - `gp` is *gravity point*, which equals `gu`.
   - Bitterness:
-    - `IBU`, for *International Bitterness Unit*, as the reference unit for dimension 𝐁
+    - `IBU`, for *International Bitterness Unit*, as the reference unit for dimension 𝐁𝐓
   - Color units:
-    - `SRM` is the *Standard Reference Method*, which is taken as the reference unit for beer color.
+    - `SRM` is the *Standard Reference Method*, which is taken as the reference unit for beer color dimension 𝐂𝐋.
     - `EBC`, for *European Brewery Convention*, which is related to `SRM` by `EBC = 1.97 SRM`.
     - `°L`, standing for *degree Lovibond*, an affine unit related to `SRM` by `SRM = 1.3546 °L - 0.76`.
   - Diastatic power:
-    - `°Lintner`, standing for degrees Lintner, as the reference unit for diastatic power.
+    - `°Lintner`, standing for degrees Lintner, as the reference unit for diastatic power dimension 𝐃𝐏.
     - `°WK`, standing for Windisch–Kolbach units, an affine unit which is related to degrees Lintner by `°Lintner` by `°WK = (3.5 * °Lintner) - 16`.
   - Concentration units:
     - `ppm` is *parts per million*
