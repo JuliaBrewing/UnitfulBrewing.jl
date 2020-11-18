@@ -14,10 +14,10 @@ import UnitfulEquivalences: edconvert
 export DensityConcentration, SugarGravity, SugarGravityQuad
 
 # New dimensions
-@dimension 𝐂    "C"     Color
-@dimension 𝐃    "𝐃"     DiastaticPower
-@dimension 𝐁    "𝐁"     Bitterness
-@dimension 𝐒    "S"     SugarContents
+@dimension 𝐂𝐋   "𝐂𝐋"     Color
+@dimension 𝐃𝐏   "𝐃𝐏"     DiastaticPower
+@dimension 𝐁𝐓   "𝐁𝐓"     Bitterness
+@dimension 𝐒𝐂   "𝐒𝐂"     SugarContents
 
 # Time units: adding beerjson symbols as alias to Unitful symbols
 const sec = Unitful.s
@@ -47,7 +47,7 @@ const week = Unitful.wk
 
 
 # Sugar content
-@refunit °P     "°P"        Plato               𝐒           false
+@refunit °P     "°P"        Plato               𝐒𝐂          false
 @unit Brix      "Brix"      Brix                1°P         false
 @unit Balling   "Balling"   Balling             1°P         false
 const P = °P
@@ -62,14 +62,14 @@ const P = °P
 const gp = gu # gravity points
 
 # Diastatic Power
-@refunit        °Lintner    "°Lintner"  Lintner     𝐃                   false
+@refunit        °Lintner    "°Lintner"  Lintner     𝐃𝐏                  false
 @unit           °WK_aux     "°WK_aux"   WK_aux      (10//35)°Lintner    false
 @affineunit     °WK         "°WK"       16°WK_aux
 const Lintner = °Lintner
 const WK = °WK
 
 # Color units
-@refunit    SRM     "SRM"       SRM                 𝐂                   false      
+@refunit    SRM     "SRM"       SRM                 𝐂𝐋                  false      
 @unit       EBC     "EBC"       EBC                 (100//197)SRM       false
 @unit       L_aux   "L_aux"     L_aux               (13546//10000)SRM    false
 @affineunit °L      "°L"        -(7600//13546)L_aux
@@ -82,7 +82,7 @@ const ebc = EBC
 
 # International Bitterness Unit
 
-@refunit    IBU     "IBU"       InternationalBitternessUnit 𝐁       false
+@refunit    IBU     "IBU"       InternationalBitternessUnit 𝐁𝐓      false
 
 # Concentration units
 #=

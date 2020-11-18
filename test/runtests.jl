@@ -4,10 +4,10 @@ using Test
 
 @testset "Dimensions and quantities" begin
     # new dimensions
-    @test UnitfulBrewing.𝐂*UnitfulBrewing.𝐂 === UnitfulBrewing.𝐂^2 # Color
-    @test UnitfulBrewing.𝐃*UnitfulBrewing.𝐃 === UnitfulBrewing.𝐃^2 # Diastatic Power
-    @test UnitfulBrewing.𝐁*UnitfulBrewing.𝐁 === UnitfulBrewing.𝐁^2 # Bitterness
-    @test UnitfulBrewing.𝐒*UnitfulBrewing.𝐒 === UnitfulBrewing.𝐒^2 # SugarContents
+    @test UnitfulBrewing.𝐂𝐋*UnitfulBrewing.𝐂𝐋 === UnitfulBrewing.𝐂𝐋^2 # Color
+    @test UnitfulBrewing.𝐃𝐏*UnitfulBrewing.𝐃𝐏 === UnitfulBrewing.𝐃𝐏^2 # Diastatic Power
+    @test UnitfulBrewing.𝐁𝐓*UnitfulBrewing.𝐁𝐓 === UnitfulBrewing.𝐁𝐓^2 # Bitterness
+    @test UnitfulBrewing.𝐒𝐂*UnitfulBrewing.𝐒𝐂 === UnitfulBrewing.𝐒𝐂^2 # SugarContents
 
     # US Volumes not in Unitful
     @test @macroexpand(u"tsp") == u"tsp"

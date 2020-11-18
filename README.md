@@ -9,10 +9,10 @@ This package is still **under development** and not yet registered.
 We add the following dimensions and units in this package:
 
 - Dimensions:
-  - 𝐂 for Color
-  - 𝐃 for Diastatic Power
-  - 𝐁 for Bitterness
-  - 𝐒 for Sugar Contents
+  - 𝐂𝐋 for Color
+  - 𝐃𝐏 for Diastatic Power
+  - 𝐁𝐓 for Bitterness
+  - 𝐒𝐂 for Sugar Contents
 
 - Units:
   - Sugar contents:
