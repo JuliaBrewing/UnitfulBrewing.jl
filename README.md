@@ -70,9 +70,11 @@ We add the following dimensions and units in this package:
 
 ## Equivalences
 
-Although degrees Plato and specific gravity measure different things, they are both used for estimating the amount of fermentables in the wort. In fact, it is common to treat them interchangeably, according to suitable nonlinear relations between them. In order to account for that, we use here the package [UnitfulEquivalences.jl](https://github.com/sostock/UnitfulEquivalences.jl) (under development), which is inspired by [astropy.units: equivalencies](https://docs.astropy.org/en/stable/units/equivalencies.html). We implement two equivalences, one according to a rational equation and another according to a quadratic equation.
+Although degrees Plato and specific gravity measure different things, they are both used for estimating the amount of fermentables in the wort. In fact, it is common to treat them interchangeably, according to suitable nonlinear relations between them. In order to account for that, we use here the package [UnitfulEquivalences.jl](https://github.com/sostock/UnitfulEquivalences.jl). We implement two equivalences, one according to a rational equation and another according to a quadratic equation.
 
-Similarly, as it is commonly done in he brewing community (and in other fields considering small quantities of solutes dissolved in water), `ppm` and `mg/l` are also treated interchangeably.
+The bitterness in beer, in turn, is usually expressed in the `IBU` scale, which stands for *International Bittering Units*. This is usually associated with `mg/l` of iso-alpha acids. With this in mind, we also implement an equivalence relation between this quantities, wih `1 IBU` being equivalent to `1 mg/l` (of iso-alpha acids).
+
+Similarly, as it is commonly done in the brewing community (and in other fields considering small quantities of solutes dissolved in water), `ppm` and `mg/l` are also treated interchangeably.
 
 ### Sugar contents and gravity equivalence
 
