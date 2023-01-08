@@ -251,7 +251,7 @@ function show_quantity_info(x::Quantity{T,D,U}) where {T,D,U}
 end
 
 # Register the above units and dimensions in Unitful
-const localpromotion = Unitful.promotion # only needed with new dimensions
+const localpromotion = copy(Unitful.promotion) # only needed with new dimensions
 function __init__()
     Unitful.register(UnitfulBrewing) # needed for new Units
     merge!(Unitful.promotion, localpromotion) # only needed with new dimensions
