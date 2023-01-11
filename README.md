@@ -1,5 +1,7 @@
 # UnitfulBrewing
 
+![Main Tests Workflow Status](https://github.com/JuliaBrewing/UnitfulBrewing.jl/workflows/CI/badge.svg)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![GitHub repo size](https://img.shields.io/github/repo-size/JuliaBrewing/UnitfulBrewing.jl) 
+
 A supplemental units package for [Unitful.jl](https://github.com/PainterQubits/Unitful.jl), with units used in the beer brewing process.
 
 This package is still **under development** and not yet registered.
@@ -113,23 +115,24 @@ For the equivalence between density and concentration, we define the *equivalenc
 ```julia
 julia> uconvert(u"mg/l", 10u"ppm", DensityConcentration())
 10 mg L⁻¹
+
 julia> uconvert(u"ppm", 1u"g/l", DensityConcentration())
 1000 ppm
 ```
 
 ## Things to do
 
-- Implement carbonation units and their equivalence (i.e. `vol` or `vol/vol`, as volumes of gas - CO₂, N₂ - per volume of beverage, and `density`, and the equivalence between these two quantities, with 1 vol of CO₂ per volume of beer being equal to 1.98 g/l).
+- [] Proper documentation.
 
-- Equivalence between `mg/l` and `IBU`.
+- [] Implement carbonation units and their equivalence (i.e. `vol` or `vol/vol`, as volumes of gas - CO₂, N₂ - per volume of beverage, and `density`, and the equivalence between these two quantities, with 1 vol of CO₂ per volume of beer being equal to 1.98 g/l).
 
-- Maybe more quantities and units, see for instance the Appendix in [Brewing Science and practice, by D. E. Briggs, C. A. Boulton, P. A. Brookes and R. Stevens, Woodhead Publishing Limited and CRC Press LLC 2004](https://www.amazon.com/Brewing-Practice-Publishing-Technology-Nutrition/dp/1855734907).
+- [] Equivalence between `mg/l` and `IBU`.
 
-- Some more tests.
+- [] Maybe more quantities and units, see for instance the Appendix in [Brewing Science and practice, by D. E. Briggs, C. A. Boulton, P. A. Brookes and R. Stevens, Woodhead Publishing Limited and CRC Press LLC 2004](https://www.amazon.com/Brewing-Practice-Publishing-Technology-Nutrition/dp/1855734907).
 
-- Github actions or similar.
+- [x] Github actions with tests.
 
-- Wait for [UnitfulEquivalences.jl](https://github.com/sostock/UnitfulEquivalences.jl) to be registered.
+- [x] Wait for [UnitfulEquivalences.jl](https://github.com/sostock/UnitfulEquivalences.jl) to be registered.
 
 ## License
 
