@@ -122,13 +122,13 @@ julia> uconvert(u"ppm", 1u"g/l", DensityConcentration())
 
 ## Things to do
 
-- [] Proper documentation.
+- [ ] Proper documentation.
 
-- [] Implement carbonation units and their equivalence (i.e. `vol` or `vol/vol`, as volumes of gas - CO₂, N₂ - per volume of beverage, and `density`, and the equivalence between these two quantities, with 1 vol of CO₂ per volume of beer being equal to 1.98 g/l).
+- [ ] Implement carbonation units and their equivalence (i.e. `vol` or `vol/vol`, as volumes of gas - CO₂, N₂ - per volume of beverage, and `density`, and the equivalence between these two quantities, with 1 vol of CO₂ per volume of beer being equal to 1.98 g/l).
 
-- [] Equivalence between `mg/l` and `IBU`.
+- [ ] Equivalence between `mg/l` and `IBU`.
 
-- [] Maybe more quantities and units, see for instance the Appendix in [Brewing Science and practice, by D. E. Briggs, C. A. Boulton, P. A. Brookes and R. Stevens, Woodhead Publishing Limited and CRC Press LLC 2004](https://www.amazon.com/Brewing-Practice-Publishing-Technology-Nutrition/dp/1855734907).
+- [ ] Maybe more quantities and units, see for instance the Appendix in [Brewing Science and practice, by D. E. Briggs, C. A. Boulton, P. A. Brookes and R. Stevens, Woodhead Publishing Limited and CRC Press LLC 2004](https://www.amazon.com/Brewing-Practice-Publishing-Technology-Nutrition/dp/1855734907).
 
 - [x] Github actions with tests.
 
