@@ -15,6 +15,7 @@ We add the following dimensions and units in this package:
   - 𝐃𝐏 for Diastatic Power
   - 𝐁𝐓 for Bitterness
   - 𝐒𝐂 for Sugar Contents
+  - 𝐂𝐁 for Carbonation
 
 - Units:
   - Sugar contents:
@@ -37,7 +38,7 @@ We add the following dimensions and units in this package:
   - Concentration units:
     - Concentration units such as `percent`, `permille`, `pertenthousand`, `ppm` (*parts per million*), `ppb` (*parts per billion*) and `ppt` (*parts per trillion*) are already defined in [Unitful.jl](https://github.com/JuliaPhysics/Unitful.jl) (since v1.19), and are used here as they are.
   - Carbonation:
-    - **It remains to be implemented**
+    - `vols`, standing for *volumes of CO₂* (at 0 °C and 1 atm) dissolved per volume of beer, as the reference unit for dimension 𝐂𝐁. This is the BeerJSON unit `"vols"`.
   - pH:
     - `pH⁺` is a logarithmic unit standing for the *power of hydrogen*.
     - `pwrH` serves as an alias for `pH⁺`
@@ -121,11 +122,25 @@ julia> uconvert(u"ppm", 1u"g/l", DensityConcentration())
 1000 ppm
 ```
 
+### Carbonation and density equivalence
+
+Carbonation is usually given in volumes of CO₂ per volume of beer, but sometimes as the mass of dissolved CO₂ per volume, in g/l. For the equivalence between these, we define the *equivalence type* `CarbonationDensity`, based on the density of CO₂ at 0 °C and 1 atm, so that 1 vols is equivalent to 1.977 g/l. For example
+
+```julia
+julia> uconvert(u"g/l", 2.5u"vols", CarbonationDensity())
+4.9425 g L⁻¹
+
+julia> uconvert(u"vols", 5u"g/l", CarbonationDensity())
+2.529084471421345 vols
+```
+
 ## Things to do
 
 - [ ] Proper documentation.
 
-- [ ] Implement carbonation units and their equivalence (i.e. `vol` or `vol/vol`, as volumes of gas - CO₂, N₂ - per volume of beverage, and `density`, and the equivalence between these two quantities, with 1 vol of CO₂ per volume of beer being equal to 1.98 g/l).
+- [x] Implement carbonation units (`vols`, volumes of CO₂ per volume of beer) and their equivalence with density (g/l).
+
+- [ ] Volumes of other gases, such as N₂, for nitro beers.
 
 - [ ] Equivalence between `mg/l` and `IBU`.
 

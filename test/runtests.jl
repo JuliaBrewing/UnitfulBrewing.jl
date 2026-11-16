@@ -52,6 +52,12 @@ using Test
     @test uconvert(u"°L", 0u"SRM") == (7600//13546)u"°L"
     @test uconvert(u"°L", 20u"SRM") == (207600//13546)u"°L"
 
+    # carbonation
+    @test UnitfulBrewing.𝐂𝐁*UnitfulBrewing.𝐂𝐁 === UnitfulBrewing.𝐂𝐁^2
+    @test @macroexpand(u"vols") == u"vols"
+    @test dimension(u"vols") == UnitfulBrewing.𝐂𝐁
+    @test_throws Unitful.DimensionError uconvert(NoUnits, 1u"vols")
+
     # pH
     @test [1,2,3]u"pwrH" == u"pH⁺" * [1,2,3]
     @test 3u"pH⁺" < 5u"pwrH"
@@ -82,4 +88,10 @@ end
     @test uconvert(u"gu", 10u"°P", SugarGravityQuad()) ≈ 40.03u"gu" (atol = 0.01u"gu")
     @test uconvert(u"°P", 1.040u"sg", SugarGravityQuad()) ≈ 9.99224u"°P"
     @test uconvert(u"°P", 40u"gu", SugarGravityQuad()) ≈ 9.99u"°P" (atol = 0.01u"°P")
+
+    # carbonation and density of CO₂
+    @test uconvert(u"g/l", 1u"vols", CarbonationDensity()) ≈ 1.977u"g/l"
+    @test uconvert(u"g/l", 2.5u"vols", CarbonationDensity()) ≈ 4.9425u"g/l"
+    @test uconvert(u"vols", 1.977u"g/l", CarbonationDensity()) ≈ 1u"vols"
+    @test uconvert(u"vols", 4.9425u"kg/m^3", CarbonationDensity()) ≈ 2.5u"vols"
 end
