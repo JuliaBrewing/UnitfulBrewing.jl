@@ -10,13 +10,14 @@ using Unitful
 using UnitfulEquivalences: Equivalence, dimtype, @eqrelation
 import UnitfulEquivalences: edconvert
 
-export DensityConcentration, SugarGravity, SugarGravityQuad
+export DensityConcentration, SugarGravity, SugarGravityQuad, CarbonationDensity
 
 # New dimensions
 @dimension 𝐂𝐋   "𝐂𝐋"     Color
 @dimension 𝐃𝐏   "𝐃𝐏"     DiastaticPower
 @dimension 𝐁𝐓   "𝐁𝐓"     Bitterness
 @dimension 𝐒𝐂   "𝐒𝐂"     SugarContents
+@dimension 𝐂𝐁   "𝐂𝐁"     Carbonation
 
 # Time units: adding beerjson symbols as alias to Unitful symbols
 const sec = Unitful.s
@@ -77,6 +78,9 @@ const Lovibond = °L
 const ebc = EBC
 
 # Carbonation units
+# Volumes of CO₂ (at 0 °C and 1 atm) dissolved per volume of beer, as the
+# BeerJSON unit "vols"
+@refunit    vols    "vols"      VolumesOfCO2        𝐂𝐁                  false
 
 # International Bitterness Unit
 
@@ -166,6 +170,26 @@ julia> uconvert(u"ppm", 1u"g/l", DensityConcentration())
 struct DensityConcentration <: Equivalence end
 
 @eqrelation DensityConcentration Unitful.Density / Unitful.DimensionlessQuantity = 1u"kg/l"
+
+"""
+    CarbonationDensity()
+
+Equivalence to convert between carbonation, in volumes of CO₂ per volume of
+beer (`vols`), and the density of dissolved CO₂, using the density of CO₂ at
+0 °C and 1 atm, so that 1 vols is equivalent to 1.977 g/L.
+
+# Examples
+
+```jldoctest
+julia> uconvert(u"g/l", 2.5u"vols", CarbonationDensity())
+4.9425 g L⁻¹
+julia> uconvert(u"vols", 5u"g/l", CarbonationDensity())
+2.529084471421345 vols
+```
+"""
+struct CarbonationDensity <: Equivalence end
+
+@eqrelation CarbonationDensity Unitful.Density / Carbonation = 1.977u"g/l" / vols
 
 """
     SugarGravity()
