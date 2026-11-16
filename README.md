@@ -1,10 +1,12 @@
 # UnitfulBrewing
 
-[![CI](https://github.com/JuliaBrewing/UnitfulBrewing.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/JuliaBrewing/UnitfulBrewing.jl/actions/workflows/ci.yml)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![GitHub repo size](https://img.shields.io/github/repo-size/JuliaBrewing/UnitfulBrewing.jl) 
+[![Docs](https://img.shields.io/badge/docs-dev-blue.svg)](https://JuliaBrewing.github.io/UnitfulBrewing.jl/dev/) [![CI](https://github.com/JuliaBrewing/UnitfulBrewing.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/JuliaBrewing/UnitfulBrewing.jl/actions/workflows/ci.yml)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![GitHub repo size](https://img.shields.io/github/repo-size/JuliaBrewing/UnitfulBrewing.jl) 
 
 A supplemental units package for [Unitful.jl](https://github.com/JuliaPhysics/Unitful.jl), with units used in the beer brewing process.
 
 This package is still **under development** and not yet registered.
+
+See the [documentation](https://JuliaBrewing.github.io/UnitfulBrewing.jl/dev/) for the full list of units and equivalences, with examples.
 
 ## Defined dimensions and units
 
@@ -118,7 +120,7 @@ julia> uconvert(u"mg/l", 10u"ppm", DensityConcentration())
 10 mg L⁻¹
 
 julia> uconvert(u"ppm", 1u"g/l", DensityConcentration())
-1000 ppm
+1000.0 ppm
 ```
 
 ### Carbonation and density equivalence
@@ -135,7 +137,7 @@ julia> uconvert(u"vols", 5u"g/l", CarbonationDensity())
 
 ## Things to do
 
-- [ ] Proper documentation.
+- [x] Proper documentation.
 
 - [x] Implement carbonation units (`vols`, volumes of CO₂ per volume of beer) and their equivalence with density (g/l).
 
