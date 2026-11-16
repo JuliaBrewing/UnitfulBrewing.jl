@@ -12,7 +12,8 @@ using Test
     # US Volumes not in Unitful
     @test @macroexpand(u"tsp") == u"tsp"
     @test @macroexpand(u"bbl") == u"bbl"
-    @test uconvert(u"bbl", 42u"gal") == 1u"bbl"
+    @test uconvert(u"bbl", 31u"gal") == 1u"bbl" # US beer barrel
+    @test uconvert(u"l", 1u"bbl") ≈ 117.347765304u"l"
     @test uconvert(u"gal", 16u"cup") == 1u"gal"
     @test uconvert(u"gal", 768u"tsp") == 1u"gal"
 

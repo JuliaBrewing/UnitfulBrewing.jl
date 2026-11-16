@@ -52,20 +52,19 @@ We add the following dimensions and units in this package:
     - `qt` for a *US quart*
     - `pt` for a *US pint*
     - `floz` for *US fluid ounce*
-    - `bbl` for a *US barrel*
+    - `bbl` for a *US beer barrel* (31 US gallons; not the 42-gallon oil barrel)
   - Imperial volumes
     - `ifloz` for *imperial fluid ounce*
     - `gi` for a *gill* (5 imperial fluid ounces)
     - `ipt` for an *imperial pint*
     - `iqt` for an *imperial quart*
     - `igal` for an *imperial gallon*
-    - `ibbl` for an *imperial barrel*
+    - `ibbl` for an *imperial beer barrel* (36 imperial gallons)
   - Culinary volumes
     - `cup` for a *cup*
     - `floz` for *US fluid ounce*
     - `tbsp` for a *tablespoon*
     - `tsp` for a *teaspoon*
-    - `bbl` for a *US barrel*
 
 ## Equivalences
 
