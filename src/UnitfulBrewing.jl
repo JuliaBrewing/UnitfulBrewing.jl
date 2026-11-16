@@ -1,4 +1,3 @@
-__precompile__(true)
 """
     UnitfulBrewing
 
@@ -33,7 +32,7 @@ const week = Unitful.wk
 @unit bbl       "bbl"       Barrel      42gal                   false
 
 # Imperial volumes
-@unit ifloz     "ifloz"     ImperialFluidOunce  28.4130625*(Unitful.mm) false
+@unit ifloz     "ifloz"     ImperialFluidOunce  28.4130625*(Unitful.mL)  false
 @unit gi        "gi"        Gill                5ifloz                  false
 @unit ipt       "ipt"       ImperialPint        20ifloz                 false
 @unit iqt       "iqt"       ImperialQuart       2ipt                    false
@@ -86,15 +85,9 @@ const ebc = EBC
 
 # Concentration units
 #=
-Unitful already has percent, permille and pertenthousand,
-so we only add ppm, ppb, and ppt
-@unit percent         "%"    Percent         1//100             false
-@unit permille        "‰"    Permille        1//1000            false
-@unit pertenthousand  "‱"    Pertenthousand  1//10000           false
+Unitful (since v1.19) already defines percent, permille, pertenthousand,
+pcm, ppm, ppb, ppt and ppq, so they are not redefined here.
 =#
-@unit       ppm     "ppm"       PartsPerMillion     1//10^6         false
-@unit       ppb     "ppb"       PartsPerBillion     1//10^9         false
-@unit       ppt     "ppt"       PartsPerTrillion    1//10^9         false
 
 # pH logarithmic scale
 @logscale pH⁺    "pH⁺"       powerofHydrogen      10      10      false
@@ -243,12 +236,6 @@ edconvert(::dimtype(SugarContents), x::Unitful.DimensionlessQuantity,
 
 edconvert(::dimtype(Unitful.DimensionlessQuantity), x::SugarContents,
     ::SugarGravityQuad) = plato_to_gu(uconvert(°P, x).val) * gu
-
-# The function below is just so I get things straight
-function show_quantity_info(x::Quantity{T,D,U}) where {T,D,U}
-    println("Here is the result of (T, D, U, U()) for $x:")
-    return T, D, U, U()
-end
 
 # Register the above units and dimensions in Unitful
 const localpromotion = copy(Unitful.promotion) # only needed with new dimensions

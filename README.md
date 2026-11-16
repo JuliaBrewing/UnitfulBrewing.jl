@@ -1,8 +1,8 @@
 # UnitfulBrewing
 
-![Main Tests Workflow Status](https://github.com/JuliaBrewing/UnitfulBrewing.jl/workflows/CI/badge.svg)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![GitHub repo size](https://img.shields.io/github/repo-size/JuliaBrewing/UnitfulBrewing.jl) 
+[![CI](https://github.com/JuliaBrewing/UnitfulBrewing.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/JuliaBrewing/UnitfulBrewing.jl/actions/workflows/ci.yml)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![GitHub repo size](https://img.shields.io/github/repo-size/JuliaBrewing/UnitfulBrewing.jl) 
 
-A supplemental units package for [Unitful.jl](https://github.com/PainterQubits/Unitful.jl), with units used in the beer brewing process.
+A supplemental units package for [Unitful.jl](https://github.com/JuliaPhysics/Unitful.jl), with units used in the beer brewing process.
 
 This package is still **under development** and not yet registered.
 
@@ -35,17 +35,14 @@ We add the following dimensions and units in this package:
     - `°Lintner`, standing for degrees Lintner, as the reference unit for diastatic power dimension 𝐃𝐏.
     - `°WK`, standing for Windisch–Kolbach units, an affine unit which is related to degrees Lintner by `°Lintner` by `°WK = (3.5 * °Lintner) - 16`.
   - Concentration units:
-    - `ppm` is *parts per million*
-    - `ppb` is *parts per billion*
-    - `ppt` is *parts per trillion*
-    - Other quantities such as `percent`, `permille`, and `pertenthousand` are already defined in [Unitful.jl](https://github.com/PainterQubits/Unitful.jl)
+    - Concentration units such as `percent`, `permille`, `pertenthousand`, `ppm` (*parts per million*), `ppb` (*parts per billion*) and `ppt` (*parts per trillion*) are already defined in [Unitful.jl](https://github.com/JuliaPhysics/Unitful.jl) (since v1.19), and are used here as they are.
   - Carbonation:
     - **It remains to be implemented**
   - pH:
     - `pH⁺` is a logarithmic unit standing for the *power of hydrogen*.
     - `pwrH` serves as an alias for `pH⁺`
-    - The classic symbol `pH` is already taken in [Unitful.jl](https://github.com/PainterQubits/Unitful.jl), with `Unitful.pH` representing picoHenry, where Henry (H) is the SI unit of electrical inductance, with dimension 𝐋² 𝐌 𝐈⁻² 𝐓⁻²
-  - Time units (just aliases relating the notation used in the [BeerJSON format standard](https://github.com/beerjson/beerjson) (under development) to those defined in [Unitful.jl](https://github.com/PainterQubits/Unitful.jl)):
+    - The classic symbol `pH` is already taken in [Unitful.jl](https://github.com/JuliaPhysics/Unitful.jl), with `Unitful.pH` representing picoHenry, where Henry (H) is the SI unit of electrical inductance, with dimension 𝐋² 𝐌 𝐈⁻² 𝐓⁻²
+  - Time units (just aliases relating the notation used in the [BeerJSON format standard](https://github.com/beerjson/beerjson) (under development) to those defined in [Unitful.jl](https://github.com/JuliaPhysics/Unitful.jl)):
     - `sec` equals `Unitful.s`
     - `min` equals `Unitful.minute`
     - `day` equals `Unitful.d`
@@ -84,11 +81,15 @@ Using the [UnitfulEquivalences.jl](https://github.com/sostock/UnitfulEquivalence
 
 The equivalence `SugarGravity` relates a quantity `plato` in degrees Plato to a quantity `sg` in specific gravity according to
 
-![formula](https://render.githubusercontent.com/render/math?math=\qquad\qquad\text{Plato}=259\left(1-\displaystyle\frac{1}{\text{sg}}\right))
+$$
+\text{Plato} = 259\left(1 - \frac{1}{\text{sg}}\right)
+$$
 
 The equivalence `SugarGravityQuad` relates such quantities according to the quadratic equation
 
-![formula](https://render.githubusercontent.com/render/math?math=\qquad\qquad\text{Plato}=668.72\text{sg}-463.37-205.35\text{sg}^2)
+$$
+\text{Plato} = 668.72\,\text{sg} - 463.37 - 205.35\,\text{sg}^2
+$$
 
 With these equivalence types, the conversions between the above quantities are done as in the folowing examples:
 
