@@ -1,7 +1,13 @@
 """
     UnitfulBrewing
 
-Module extending Unitful.jl with beer brewing units.
+Module extending [Unitful.jl](https://github.com/JuliaPhysics/Unitful.jl) with
+beer brewing units, and with equivalences, via
+[UnitfulEquivalences.jl](https://github.com/sostock/UnitfulEquivalences.jl),
+between quantities that are used interchangeably in brewing.
+
+The units are available through Unitful's `u"..."` string macro once the
+package is loaded, e.g. `u"°P"`, `u"SRM"` or `u"vols"`.
 """
 module UnitfulBrewing
 
@@ -108,35 +114,39 @@ Unitful.FreeUnits{(pH,),𝐋² 𝐌 𝐈⁻² 𝐓⁻²,nothing}
 """
     gu_to_plato(gu::Number)
 
-Convert a value in Gravity Units to degrees Plato according
-to the quadratic formula
+Convert a value in gravity units to degrees Plato according to the quadratic
+formula
 
-    Plato = 0.25802gu - 0.00020535gu^2,
+    Plato = 0.25802 gu - 0.00020535 gu^2,
 
 which is equivalent to the formula for specific gravity
 
-    Plato = 668.72 * sg - 463.37 - 205.35 * sg^2,
+    Plato = 668.72 sg - 463.37 - 205.35 sg^2,
 
-with
-    gu = 1000 ( sg - 1.000 ).
+with `gu = 1000 (sg - 1)`.
+
+This is the relation used by [`SugarGravityQuad`](@ref).
 """
 gu_to_plato(gu::Number) = 0.25802gu - 0.00020535gu^2
 
 """
     plato_to_gu(p::Number)
 
-Convert a value in degrees Plato to Gravity Units by inverting the quadratic
-formula for degrees Plato, so that
+Convert a value in degrees Plato to gravity units by inverting the quadratic
+formula of [`gu_to_plato`](@ref), taking the root in the range of interest:
 
-    gu = e - sqrt(e^2 - g * Plato)) if ^2 - g * p >= 0 else gu = e
+    gu = e - sqrt(e^2 - g p),
 
-where 
-    e = 0.25802 / 0.00020535 / 2 = 628.2444606768931
-and 
-    g = 1 / 0.00020535 = 4869.734599464329
+where
 
-The value gu = d when p > d/2 is just for definiteness of the function since
-the in this range the conversion is meaningless.
+    e = 0.25802 / (2 × 0.00020535) = 628.2444606768931,
+    g = 1 / 0.00020535 = 4869.734599464329.
+
+For `p > e^2 / g ≈ 81.05`, far beyond any wort, the quadratic has no real
+inverse, and `e` is returned just for definiteness, although the conversion is
+meaningless there.
+
+This is the relation used by [`SugarGravityQuad`](@ref).
 """
 function plato_to_gu(p::Number)
     e = 628.2444606768931
@@ -164,7 +174,7 @@ so that 1 mg/L is equivalent to 1 ppm (parts per million).
 julia> uconvert(u"mg/l", 10u"ppm", DensityConcentration())
 10 mg L⁻¹
 julia> uconvert(u"ppm", 1u"g/l", DensityConcentration())
-1000 ppm
+1000.0 ppm
 ```
 """
 struct DensityConcentration <: Equivalence end

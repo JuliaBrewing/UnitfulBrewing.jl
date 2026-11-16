@@ -1,0 +1,10 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+UnitfulBrewing = "0971afc3-6d60-4b49-b3a1-be0ef054b0bb"
+
+[sources]
+UnitfulBrewing = {path = ".."}
+
+[compat]
+Documenter = "1"
