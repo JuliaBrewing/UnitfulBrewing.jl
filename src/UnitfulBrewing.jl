@@ -29,7 +29,7 @@ const week = Unitful.wk
 @unit qt        "qt"        Quart       gal//4                  false
 @unit pt        "pt"        Pint        qt//2                   false
 @unit floz      "floz"      FluidOunce  pt//16                  false
-@unit bbl       "bbl"       Barrel      42gal                   false
+@unit bbl       "bbl"       Barrel      31gal                   false # US beer barrel (not the 42 gal oil barrel)
 
 # Imperial volumes
 @unit ifloz     "ifloz"     ImperialFluidOunce  28.4130625*(Unitful.mL)  false
@@ -37,7 +37,7 @@ const week = Unitful.wk
 @unit ipt       "ipt"       ImperialPint        20ifloz                 false
 @unit iqt       "iqt"       ImperialQuart       2ipt                    false
 @unit igal      "igal"      ImperialGallon      8ipt                    false
-@unit ibbl      "ibbl"      ImperialBarrel      36igal                  false
+@unit ibbl      "ibbl"      ImperialBarrel      36igal                  false # imperial beer barrel
 
 # Culinary volumes
 @unit cup       "cup"       Cup         pt//2                   false
