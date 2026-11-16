@@ -49,7 +49,6 @@ const week = Unitful.wk
 @refunit °P     "°P"        Plato               𝐒𝐂          false
 @unit Brix      "Brix"      Brix                1°P         false
 @unit Balling   "Balling"   Balling             1°P         false
-const P = °P
 
 # Specific gravity
 # uconvert(Unitful.NoUnits, 1.010u"sg") == 1.01

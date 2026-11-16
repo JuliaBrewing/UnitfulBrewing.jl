@@ -33,6 +33,7 @@ using Test
 
     # sugar content and gravity
     @test @macroexpand(u"°P") == u"°P"
+    @test u"P" === Unitful.P # poise, not degrees Plato
     @test @macroexpand(u"sg") == u"sg"
     @test @macroexpand(u"gu") == u"gu"
 
