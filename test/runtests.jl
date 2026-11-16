@@ -21,9 +21,19 @@ using Test
     @test uconvert(u"ibbl", 36u"igal") == 1u"ibbl"
     @test uconvert(u"igal", 160u"ifloz") == 1u"igal"
     @test uconvert(u"ipt", 4u"gi") == 1u"ipt"
+    @test dimension(u"igal") == dimension(u"l")
+    @test uconvert(u"ml", 1u"ifloz") ≈ 28.4130625u"ml"
+    @test uconvert(u"l", 1u"igal") ≈ 4.54609u"l"
+    @test uconvert(u"l", 1u"gal") ≈ 3.785411784u"l"
+
+    # concentrations (from Unitful)
+    @test uconvert(NoUnits, 1u"ppm") == 1//10^6
+    @test uconvert(NoUnits, 1u"ppb") == 1//10^9
+    @test uconvert(NoUnits, 1u"ppt") == 1//10^12
 
     # sugar content and gravity
     @test @macroexpand(u"°P") == u"°P"
+    @test u"P" === Unitful.P # poise, not degrees Plato
     @test @macroexpand(u"sg") == u"sg"
     @test @macroexpand(u"gu") == u"gu"
 
@@ -51,8 +61,8 @@ using Test
     @test uconvert(u"min", 60u"sec") == 1u"min"
 
     # Throw errors
-    @test_throws LoadError @macroexpand(u"ton Lovi")
-    @test_throws LoadError @macroexpand(u"lovibond")
+    @test_throws Meta.ParseError macroexpand(@__MODULE__, :(u"ton Lovi"))
+    @test_throws ArgumentError macroexpand(@__MODULE__, :(u"lovibond"))
 end
 
 @testset "Equivalences" begin
