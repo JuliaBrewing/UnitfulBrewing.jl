@@ -21,6 +21,7 @@ makedocs(;
         "Dimensions and units" => "units.md",
         "Equivalences" => "equivalences.md",
         "API reference" => "api.md",
+        "References" => "references.md",
     ],
 )
 

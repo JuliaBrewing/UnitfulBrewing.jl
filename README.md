@@ -69,6 +69,14 @@ We add the following dimensions and units in this package:
     - `tbsp` for a *tablespoon*
     - `tsp` for a *teaspoon*
 
+## References
+
+The sources of the unit definitions and of the relations used in the equivalences (NIST
+Handbook 44, 27 CFR § 25.11, the UK Weights and Measures Act 1985, the ASBC and EBC color
+methods, and others) are listed in the
+[References](https://JuliaBrewing.github.io/UnitfulBrewing.jl/dev/references/) page of the
+documentation, and next to each definition in the source code.
+
 ## Equivalences
 
 Although degrees Plato and specific gravity measure different things, they are both used for estimating the amount of fermentables in the wort. In fact, it is common to treat them interchangeably, according to suitable nonlinear relations between them. In order to account for that, we use here the package [UnitfulEquivalences.jl](https://github.com/sostock/UnitfulEquivalences.jl). We implement two equivalences, one according to a rational equation and another according to a quadratic equation.
