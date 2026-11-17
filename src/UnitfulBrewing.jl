@@ -8,6 +8,9 @@ between quantities that are used interchangeably in brewing.
 
 The units are available through Unitful's `u"..."` string macro once the
 package is loaded, e.g. `u"°P"`, `u"SRM"` or `u"vols"`.
+
+The sources of the definitions and relations are given next to them, in the
+docstrings, and in the page "References" of the documentation.
 """
 module UnitfulBrewing
 
@@ -32,6 +35,10 @@ const day = Unitful.d
 const week = Unitful.wk
 
 # US volumes
+# Ref: NIST Handbook 44, Appendix C, "General Tables of Units of Measurement"
+# (1 gal = 231 in³ = 4 qt, 1 qt = 2 pt, 1 pt = 16 fl oz); for the beer barrel,
+# 27 CFR § 25.11 (TTB): "Barrel. When used as a unit of measure, the quantity equal
+# to 31 U.S. gallons".
 @unit gal       "gal"       Gallon      231*(Unitful.inch)^3    false
 @unit qt        "qt"        Quart       gal//4                  false
 @unit pt        "pt"        Pint        qt//2                   false
@@ -39,6 +46,9 @@ const week = Unitful.wk
 @unit bbl       "bbl"       Barrel      31gal                   false # US beer barrel (not the 42 gal oil barrel)
 
 # Imperial volumes
+# Ref: UK Weights and Measures Act 1985, Schedule 1 (1 gallon = 4.54609 dm³,
+# 1 gallon = 8 pints = 160 fluid ounces, 1 gill = 1/4 pint). The beer barrel of
+# 36 imperial gallons is the traditional British one.
 @unit ifloz     "ifloz"     ImperialFluidOunce  28.4130625*(Unitful.mL)  false
 @unit gi        "gi"        Gill                5ifloz                  false
 @unit ipt       "ipt"       ImperialPint        20ifloz                 false
@@ -47,12 +57,17 @@ const week = Unitful.wk
 @unit ibbl      "ibbl"      ImperialBarrel      36igal                  false # imperial beer barrel
 
 # Culinary volumes
+# Ref: NIST Handbook 44, Appendix C (1 cup = 8 fl oz, 1 tablespoon = 1/2 fl oz,
+# 1 teaspoon = 1/6 fl oz).
 @unit cup       "cup"       Cup         pt//2                   false
 @unit tbsp      "tbsp"      Tablespoon  cup//16                 false
 @unit tsp       "tsp"       Teaspoon    tbsp//3                 false
 
 
 # Sugar content
+# Degrees Plato, Brix and Balling are mass percentages of sucrose (or extract) in
+# solution, from the tables of Balling (1843), Brix (1854) and Plato (1900s),
+# which differ slightly and are taken here as equal.
 @refunit °P     "°P"        Plato               𝐒𝐂          false
 @unit Brix      "Brix"      Brix                1°P         false
 @unit Balling   "Balling"   Balling             1°P         false
@@ -67,6 +82,10 @@ const week = Unitful.wk
 const gp = gu # gravity points
 
 # Diastatic Power
+# Ref: °WK = 3.5 °Lintner - 16, the usual approximate interconversion of the ASBC
+# (°Lintner) and EBC (°WK) values, e.g. G. Oliver (ed.), The Oxford Companion to
+# Beer, Oxford University Press, 2011, entry "diastatic power"; Megazyme, data
+# sheet E-MASTP, https://prod-docs.megazyme.com/documents/Data_Sheet/E-MASTP_DATA.pdf
 @refunit        °Lintner    "°Lintner"  Lintner     𝐃𝐏                  false
 @unit           °WK_aux     "°WK_aux"   WK_aux      (10//35)°Lintner    false
 @affineunit     °WK         "°WK"       16°WK_aux
@@ -74,6 +93,12 @@ const Lintner = °Lintner
 const WK = °WK
 
 # Color units
+# Refs: SRM (ASBC, adopted in 1950) and EBC are both from the absorbance at 430 nm,
+# A430 of a 1 cm cell, as SRM = 12.7 A430 and EBC = 25 A430, hence EBC = (25/12.7)
+# SRM ≈ 1.97 SRM (ASBC Methods of Analysis, Beer-10; EBC Analytica). The relation
+# SRM = 1.3546 °L - 0.76 is an empirical fit to the EBC and Lovibond values published
+# by maltsters, as quoted in the Wikipedia article "Standard Reference Method"; its
+# original source was not found.
 @refunit    SRM     "SRM"       SRM                 𝐂𝐋                  false      
 @unit       EBC     "EBC"       EBC                 (100//197)SRM       false
 @unit       L_aux   "L_aux"     L_aux               (13546//10000)SRM    false
@@ -85,7 +110,7 @@ const ebc = EBC
 
 # Carbonation units
 # Volumes of CO₂ (at 0 °C and 1 atm) dissolved per volume of beer, as the
-# BeerJSON unit "vols"
+# BeerJSON unit "vols" (BeerJSON schema, https://github.com/beerjson/beerjson)
 @refunit    vols    "vols"      VolumesOfCO2        𝐂𝐁                  false
 
 # International Bitterness Unit
@@ -126,6 +151,13 @@ which is equivalent to the formula for specific gravity
 with `gu = 1000 (sg - 1)`.
 
 This is the relation used by [`SugarGravityQuad`](@ref).
+
+# References
+
+- "On the relationship between Plato and specific gravity", Brewer's Friend, 2012,
+  <https://www.brewersfriend.com/2012/10/31/on-the-relationship-between-plato-and-specific-gravity>,
+  which attributes this quadratic fit to Robbins (1975); the original publication was not
+  found.
 """
 gu_to_plato(gu::Number) = 0.25802gu - 0.00020535gu^2
 
@@ -168,6 +200,10 @@ Equivalence to convert between Density and Concentration for water-based
 solutions, with relatively small quantities of solutes, as in water treatment,
 so that 1 mg/L is equivalent to 1 ppm (parts per million).
 
+This assumes a density of 1 kg/L for the solution: it is the usual convention in
+water treatment and brewing water chemistry, accurate to about 0.2% for water at
+room temperature.
+
 # Examples
 
 ```jldoctest
@@ -187,6 +223,11 @@ struct DensityConcentration <: Equivalence end
 Equivalence to convert between carbonation, in volumes of CO₂ per volume of
 beer (`vols`), and the density of dissolved CO₂, using the density of CO₂ at
 0 °C and 1 atm, so that 1 vols is equivalent to 1.977 g/L.
+
+# References
+
+- The density of gaseous CO₂ at 0 °C and 1 atm, 1.977 kg/m³, e.g. in the CRC
+  Handbook of Chemistry and Physics; it follows from the molar mass 44.009 g/mol.
 
 # Examples
 
@@ -210,6 +251,8 @@ Convert between degrees Plato and specific gravity according to the equation
 
     Plato = 259 * (1 - 1/sg),
 
+a simple approximation of the Plato tables, with the specific gravity at 60 °F.
+
 # Examples
 
 ```jldoctest
@@ -222,6 +265,12 @@ julia> uconvert(u"gu", 12u"°P", SugarGravity())
 julia> uconvert(u"°P", 40u"gu", SugarGravity())
 9.961538461538483 °P
 ```
+
+# References
+
+- T. Foster, "Understanding Specific Gravity vs. Plato", *Brew Your Own*,
+  <https://byo.com/?p=14253>, which gives it as one of the simpler of several proposed
+  relations; its original source was not found.
 """
 struct SugarGravity <: Equivalence end
 
@@ -261,6 +310,13 @@ julia> uconvert(u"gu", 12u"°P", SugarGravityQuad())
 julia> uconvert(u"°P", 40u"gu", SugarGravityQuad())
 9.992240000000002 °P
 ```
+
+# References
+
+- "On the relationship between Plato and specific gravity", Brewer's Friend, 2012,
+  <https://www.brewersfriend.com/2012/10/31/on-the-relationship-between-plato-and-specific-gravity>,
+  which attributes this quadratic fit to Robbins (1975); the original publication was not
+  found.
 """
 struct SugarGravityQuad <: Equivalence end
 
