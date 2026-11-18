@@ -36,7 +36,7 @@ We add the following dimensions and units in this package:
     - `°L`, standing for *degree Lovibond*, an affine unit related to `SRM` by `SRM = 1.3546 °L - 0.76`.
   - Diastatic power:
     - `°Lintner`, standing for degrees Lintner, as the reference unit for diastatic power dimension 𝐃𝐏.
-    - `°WK`, standing for Windisch–Kolbach units, an affine unit which is related to degrees Lintner by `°Lintner` by `°WK = (3.5 * °Lintner) - 16`.
+    - `°WK`, standing for Windisch–Kolbach units, an affine unit which is related to degrees Lintner by `°WK = 3.5 °Lintner - 16`.
   - Concentration units:
     - Concentration units such as `percent`, `permille`, `pertenthousand`, `ppm` (*parts per million*), `ppb` (*parts per billion*) and `ppt` (*parts per trillion*) are already defined in [Unitful.jl](https://github.com/JuliaPhysics/Unitful.jl) (since v1.19), and are used here as they are.
   - Carbonation:
@@ -81,7 +81,7 @@ documentation, and next to each definition in the source code.
 
 Although degrees Plato and specific gravity measure different things, they are both used for estimating the amount of fermentables in the wort. In fact, it is common to treat them interchangeably, according to suitable nonlinear relations between them. In order to account for that, we use here the package [UnitfulEquivalences.jl](https://github.com/sostock/UnitfulEquivalences.jl). We implement two equivalences, one according to a rational equation and another according to a quadratic equation.
 
-The bitterness in beer, in turn, is usually expressed in the `IBU` scale, which stands for *International Bittering Units*. This is usually associated with `mg/l` of iso-alpha acids. With this in mind, we also implement an equivalence relation between this quantities, wih `1 IBU` being equivalent to `1 mg/l` (of iso-alpha acids).
+The bitterness in beer, in turn, is usually expressed in the `IBU` scale, which stands for *International Bitterness Units*. This is usually associated with `mg/l` of iso-alpha acids. With this in mind, we plan to implement an equivalence relation between these quantities, with `1 IBU` being equivalent to `1 mg/l` (of iso-alpha acids). This equivalence is not available yet.
 
 Similarly, as it is commonly done in the brewing community (and in other fields considering small quantities of solutes dissolved in water), `ppm` and `mg/l` are also treated interchangeably.
 
